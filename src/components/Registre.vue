@@ -29,7 +29,7 @@
     >
       submit
     </v-btn>
-    <v-btn flat @click="creerLien"> {{ creerLien(utilisateur) }} </v-btn>
+    <v-btn flat @click="idk"> test </v-btn>
   </v-form>
   </div>
 </template>
@@ -57,28 +57,40 @@ export default {
   },
   methods: {
     submit: function () {
-
+      if (this.nomDisponible(this.utilisateur)) { console.log("Nom d'utilisateur déjà pris"); return }
+      console.log("Pas pris")
+      return
       let lien = 'http://localhost/confirmer?' + creerLien(this.utilisateur)
 
       var actionCodeSettings = {
         url: lien,
         handleCodeInApp: true
       }
-      firebase.auth().sendSignInLinkToEmail(this.email, actionCodeSettings)
+      /*firebase.auth().sendSignInLinkToEmail(this.email, actionCodeSettings)
       .then(function() {
         console.log("kjbfjk")
       })
-      .catch(function (error) { console.log(error) })
+      .catch(function (error) { console.log(error) })*/
+    },
+    nomDisponible: function(uti) {
+      var database = firebase.database().ref()
+
+      let liste = []
+      database.on("value", function(snapshot) {
+          for (let i in snapshot.val().users) { liste.push(snapshot.val().users[i].utilisateur) }
+          for (let i in snapshot.val().preusers) { liste.push(snapshot.val().preusers[i].utilisateur) }
+          console.log(liste) // la liste prend trop de temps a recevoir toutes les données donc va n'arrive pas, on pourrait mettre une fonction sur ligne ou attendre, idk
+          for (let i = 0; i < liste.length; i++) { if (liste[i] === uti) { return true } }
+
+          return false
+      }, function (error) {
+        console.log("Error: " + error.code);
+      })
     },
     creerLien: function(uti) {
       // Le lien se cree avec le mail + la position de la lettre
       let le = "aAbBcCdDeEfFgGhHiIjJkKlLmMnNñÑoOpPqQrRsStTuUvVwWxXyYzZ-_0123456789."
-      let lettres = []
       let out = ""
-
-      for (let i = 0; i < le.length; i++) {
-        lettres.push(le[i])
-      }
 
       // Utilisateur
       for (let i = 0; i < uti.length; i++) {
@@ -90,7 +102,20 @@ export default {
           }
         }
       }
+      console.log(out)
       return out
+    },
+    idk: function() {
+      let database = firebase.database().ref("preusers/")
+
+        let preUser = new Object()
+
+        preUser.email = this.email
+        preUser.passe = this.passe
+        preUser.utilisateur = this.utilisateur
+      database.set({
+        preUser
+      })
     }
   }
 }
