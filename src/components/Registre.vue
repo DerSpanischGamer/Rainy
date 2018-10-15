@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import * as http from "http"
 export default {
   name: 'Registre',
   data () {
@@ -106,16 +107,9 @@ export default {
       return out
     },
     idk: function() {
-      let database = firebase.database().ref("preusers/")
-
-        let preUser = new Object()
-
-        preUser.email = this.email
-        preUser.passe = this.passe
-        preUser.utilisateur = this.utilisateur
-      database.set({
-        preUser
-      })
+      let x = http.getJSON("https://pokeapi.co/api/v2/pokemon/?limit=151")
+      console.log(x)
+      return
     }
   }
 }
