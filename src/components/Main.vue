@@ -1,5 +1,7 @@
 <template>
   <div class="Main">
+  <p> Hell be like </p>
+    <v-img :src="'https://i.imgur.com/kHiOUcE.gif'" height="300" width="300" gradient="to bottom, rgba(0,0,0,0), rgba(255,0,0,1)"> </v-img>
   </div>
 </template>
 
