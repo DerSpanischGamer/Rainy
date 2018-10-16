@@ -5,13 +5,12 @@
   "author": "RO ;P + Nekoly",
   "private": false,
   "scripts": {
-    "dev": "webpack-dev-server --port 8080 --hot --host 0.0.0.0 --inline --progress --config build/webpack.dev.conf.js",
+    "dev": "webpack-dev-server --host 0.0.0.0 --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "lint": "eslint --ext .js,.vue src",
     "build": "node build/build.js"
   },
   "dependencies": {
-    "dns": "^0.2.2",
     "firebase": "^5.5.4",
     "googleapis": "^27.0.0",
     "nodemailer": "^4.6.8",
@@ -64,7 +63,7 @@
     "vue-template-compiler": "^2.5.2",
     "webpack": "^3.6.0",
     "webpack-bundle-analyzer": "^2.9.0",
-    "webpack-dev-server": "^2.11.3",
+    "webpack-dev-server": "^1.16.5",
     "webpack-merge": "^4.1.0"
   },
   "engines": {
