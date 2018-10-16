@@ -35,7 +35,8 @@
 </template>
 
 <script>
-import * as http from "http"
+import axios from "axios"
+
 export default {
   name: 'Registre',
   data () {
@@ -52,15 +53,21 @@ export default {
       passe: '',
       rules: {
           required: value => !!value || 'Required.',
-          min: v => v.length >= 10 || 'Min 10 characters'
-      }
+          min: v => v.length >= 4 || 'Min 4 characters'
+      },
+      reponse: ""
     }
   },
   methods: {
     submit: function () {
-      if (this.nomDisponible(this.utilisateur)) { console.log("Nom d'utilisateur déjà pris"); return }
+      if (this.nomDisponible(this.utilisateur)) { console.log("Nom d'utilisateur déjà pris"); return } // hacer la peticion https aqui
       console.log("Pas pris")
       return
+
+
+
+
+
       let lien = 'http://localhost/confirmer?' + creerLien(this.utilisateur)
 
       var actionCodeSettings = {
@@ -107,9 +114,16 @@ export default {
       return out
     },
     idk: function() {
-      let x = http.getJSON("https://pokeapi.co/api/v2/pokemon/?limit=151")
-      console.log(x)
-      return
+      this.sendData()
+
+      console.log(this.reponse)
+    },
+    sendData() {
+      axios({ method: "POST", "url": "https://us-central1-rainy-79819.cloudfunctions.net/nomDisponible", "data": this.input, "headers": { "content-type": "application/json" } }).then(result => {
+            this.response = result.data;
+        }, error => {
+          console.error(error);
+      });
     }
   }
 }
