@@ -1,4 +1,4 @@
-# robely
+# Rainy
 
 > Le meilleur reseau social pour tes animaux de compagnie
 
