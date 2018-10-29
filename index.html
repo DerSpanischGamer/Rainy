@@ -20,8 +20,10 @@
       storageBucket: "rainy-79819.appspot.com",
       messagingSenderId: "854893642633"
     };
-    console.log(":D")
-    firebase.initializeApp(config);
+    let app = firebase.initializeApp(config)
+    let db = app.database()
+
+    let users = db.ref('users')
   </script>
   </body>
 </html>

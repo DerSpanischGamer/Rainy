@@ -36,6 +36,7 @@
 
 <script>
 import axios from "axios"
+import * as firebase from 'firebase'
 
 export default {
   name: 'Registre',
@@ -64,10 +65,6 @@ export default {
       console.log("Pas pris")
       return
 
-
-
-
-
       let lien = 'http://localhost/confirmer?' + creerLien(this.utilisateur)
 
       var actionCodeSettings = {
@@ -81,8 +78,6 @@ export default {
       .catch(function (error) { console.log(error) })*/
     },
     nomDisponible: function(uti) {
-      var database = firebase.database().ref()
-
       let liste = []
       database.on("value", function(snapshot) {
           for (let i in snapshot.val().users) { liste.push(snapshot.val().users[i].utilisateur) }
@@ -114,16 +109,20 @@ export default {
       return out
     },
     idk: function() {
-      this.sendData()
-
-      console.log(this.reponse)
-    },
-    sendData() {
-      axios({ method: "POST", "url": "https://us-central1-rainy-79819.cloudfunctions.net/nomDisponible", "data": this.input, "headers": { "content-type": "application/json" } }).then(result => {
-            this.response = result.data;
-        }, error => {
-          console.error(error);
-      });
+      users.once('value')
+      .then((data) => {
+        const users = []
+        const obj = data.val()
+        for (let key in obj) {
+          users.push(obj[key].email)
+        }
+        console.log(users)
+      })
+      .catch(
+        (error) => {
+          console.log(error)
+        }
+      )
     }
   }
 }
