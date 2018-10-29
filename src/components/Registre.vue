@@ -10,6 +10,7 @@
     <v-text-field
       v-model="utilisateur"
       label="Nom d'utilisateur"
+      :rules="regles"
       required
     ></v-text-field>
     <v-text-field
@@ -17,7 +18,7 @@
       :type="show ? 'text' : 'password'"
       v-model="passe"
       label="Mot de passe"
-      :rules="[rules.required, rules.min]"
+      :rules="rules"
       required
       counter
       @click:append="show = !show"
@@ -47,15 +48,21 @@ export default {
       show: false,
       email: '',
       emailRules: [
-        v => !!v || 'E-mail is required',
-        v => /.+@.+/.test(v) || 'E-mail must be valid'
+        v => !!v || 'Obligatoire',
+        v => /.+@.+/.test(v) || 'E-mail doit être valide'
       ],
       utilisateur: '',
       passe: '',
-      rules: {
-          required: value => !!value || 'Required.',
-          min: v => v.length >= 4 || 'Min 4 characters'
-      },
+      rules: [
+        v => !!v || 'Obligatoire.',
+        v => v.length >= 4 || 'Min 4 caractères',
+        v => v.length <= 16 || 'Max 16 caractères'
+      ],
+      regles: [
+        v => !!v || 'Obligatoire',
+        v => v.length >= 4 || 'Min 4 caractères',
+        v => v.length <= 16 || 'Max 16 caractères'
+      ],
       reponse: ""
     }
   },
@@ -71,7 +78,7 @@ export default {
         url: lien,
         handleCodeInApp: true
       }
-      /*firebase.auth().sendSignInLinkToEmail(this.email, actionCodeSettings)
+      /*firebase.auth().sendSignInLinkToEmail(this.email, actionCodeSettings) // Envoyer un mail je crois
       .then(function() {
         console.log("kjbfjk")
       })
@@ -109,14 +116,39 @@ export default {
       return out
     },
     idk: function() {
+      const user = []
+
       users.once('value')
       .then((data) => {
-        const users = []
         const obj = data.val()
         for (let key in obj) {
-          users.push(obj[key].email)
+          user.push({
+            email: obj[key].email,
+            utilisateur: obj[key].utilisateur
+          })
         }
-        console.log(users)
+        console.log(user)
+
+        // Tout le code doit s'executer ici car sinon l'app ne se syncronise pas a cause du delai du serveur
+        for (let i = 0; i < user.length; i++) {
+          if (user[i].email == this.email) {
+            console.log("Email deja registre")
+            return
+          } else if (user[i].utilisateur == this.utilisateur) {
+            console.log("Nom d'utilisateur deja pris")
+            return
+          }
+        for (let i = 0; i < this.utilisateur.length; i++) {
+          if (this.utilisateur[i] == " ") {
+            console.log("Le nom d'utilisateur ne peut pas contenir des espaces")
+            return
+          }
+        }
+
+        // Si on arrive jusqu'ici c'est que le mail et le nom sont ok
+
+        // Faudrait envoyer un mail de confirmation, renvoyer la personne dans une page ou il disse de confirmer l'inscriptione et puis a long terme, faire la page de confirmation
+        }
       })
       .catch(
         (error) => {
