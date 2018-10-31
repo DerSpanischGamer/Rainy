@@ -30,7 +30,6 @@
     >
       submit
     </v-btn>
-    <v-btn flat @click="idk"> test </v-btn>
   </v-form>
   </div>
 </template>
@@ -62,41 +61,10 @@ export default {
         v => !!v || 'Obligatoire',
         v => v.length >= 4 || 'Min 4 caractères',
         v => v.length <= 16 || 'Max 16 caractères'
-      ],
-      reponse: ""
+      ]
     }
   },
   methods: {
-    submit: function () {
-      if (this.nomDisponible(this.utilisateur)) { console.log("Nom d'utilisateur déjà pris"); return } // hacer la peticion https aqui
-      console.log("Pas pris")
-      return
-
-      let lien = 'http://localhost/confirmer?' + creerLien(this.utilisateur)
-
-      var actionCodeSettings = {
-        url: lien,
-        handleCodeInApp: true
-      }
-      /*firebase.auth().sendSignInLinkToEmail(this.email, actionCodeSettings) // Envoyer un mail je crois
-      .then(function() {
-        console.log("kjbfjk")
-      })
-      .catch(function (error) { console.log(error) })*/
-    },
-    nomDisponible: function(uti) {
-      let liste = []
-      database.on("value", function(snapshot) {
-          for (let i in snapshot.val().users) { liste.push(snapshot.val().users[i].utilisateur) }
-          for (let i in snapshot.val().preusers) { liste.push(snapshot.val().preusers[i].utilisateur) }
-          console.log(liste) // la liste prend trop de temps a recevoir toutes les données donc va n'arrive pas, on pourrait mettre une fonction sur ligne ou attendre, idk
-          for (let i = 0; i < liste.length; i++) { if (liste[i] === uti) { return true } }
-
-          return false
-      }, function (error) {
-        console.log("Error: " + error.code);
-      })
-    },
     creerLien: function(uti) {
       // Le lien se cree avec le mail + la position de la lettre
       let le = "aAbBcCdDeEfFgGhHiIjJkKlLmMnNñÑoOpPqQrRsStTuUvVwWxXyYzZ-_0123456789."
@@ -115,7 +83,7 @@ export default {
       console.log(out)
       return out
     },
-    idk: function() {
+    submit: function() {
       const user = []
 
       users.once('value')
@@ -131,24 +99,49 @@ export default {
 
         // Tout le code doit s'executer ici car sinon l'app ne se syncronise pas a cause du delai du serveur
         for (let i = 0; i < user.length; i++) {
-          if (user[i].email == this.email) {
-            console.log("Email deja registre")
-            return
-          } else if (user[i].utilisateur == this.utilisateur) {
+          if (user[i].utilisateur == this.utilisateur) {
             console.log("Nom d'utilisateur deja pris")
             return
           }
+        }
         for (let i = 0; i < this.utilisateur.length; i++) {
           if (this.utilisateur[i] == " ") {
             console.log("Le nom d'utilisateur ne peut pas contenir des espaces")
             return
           }
         }
-
+        let uti = this.utilisateur
         // Si on arrive jusqu'ici c'est que le mail et le nom sont ok
-
-        // Faudrait envoyer un mail de confirmation, renvoyer la personne dans une page ou il disse de confirmer l'inscriptione et puis a long terme, faire la page de confirmation
-        }
+        app.auth().createUserWithEmailAndPassword(this.email, this.passe)
+        .then(function() {
+          let user = app.auth().currentUser;
+          console.log(user)
+          user.updateProfile({
+            displayName: uti,
+            photoURL: "https://pm1.narvii.com/6417/f841c8c25c9939c1c56c41b7faef7c1e0065b1ec_128.jpg",
+          })
+          .then(function() {
+            user.sendEmailVerification()
+            .then(function() {
+              function writeUserData(userId, name, email, imageUrl) {
+                db.ref('users/' + userId).set({
+                  bio: ":3",
+                  email: this.email,
+                  role: "user",
+                  utilisateur: uti
+                })
+              }
+              console.log("Bien")
+            }).catch(function(error) {
+              console.log(error)
+            })
+          })
+          .catch(function(error) {
+            console.log(error)
+          })
+        }).catch(function(error) {
+          console.log(error.message)
+        })
       })
       .catch(
         (error) => {
