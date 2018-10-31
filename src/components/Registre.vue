@@ -65,24 +65,6 @@ export default {
     }
   },
   methods: {
-    creerLien: function(uti) {
-      // Le lien se cree avec le mail + la position de la lettre
-      let le = "aAbBcCdDeEfFgGhHiIjJkKlLmMnNñÑoOpPqQrRsStTuUvVwWxXyYzZ-_0123456789."
-      let out = ""
-
-      // Utilisateur
-      for (let i = 0; i < uti.length; i++) {
-        for (let j = 0; j < le.length; j++) {
-          if (le[j] == uti[i]) {
-            let k = j + i
-            while (k >= le.length) { k -= le.length }
-            out += le[k]
-          }
-        }
-      }
-      console.log(out)
-      return out
-    },
     submit: function() {
       const user = []
 
@@ -111,6 +93,7 @@ export default {
           }
         }
         let uti = this.utilisateur
+        let mail = this.email
         // Si on arrive jusqu'ici c'est que le mail et le nom sont ok
         app.auth().createUserWithEmailAndPassword(this.email, this.passe)
         .then(function() {
@@ -123,12 +106,10 @@ export default {
           .then(function() {
             user.sendEmailVerification()
             .then(function() {
-              function writeUserData(userId, name, email, imageUrl) {
-                db.ref('users/' + userId).set({
+              function writeUserData() { // CETTE PARTIE NE FONCTIONNE PAS MAIS LE CODE EST BIEN ECRIT DONC WTFFFFFFF JE REGARDERAI UN AUTRE JOUR JE VAIS BOSSER PHILO
+                app.database().ref('users/hola').set({
                   bio: ":3",
-                  email: this.email,
-                  role: "user",
-                  utilisateur: uti
+                  role: "user"
                 })
               }
               console.log("Bien")
