@@ -1,6 +1,7 @@
 <template>
   <div class="Main">
   <p> Hell be like </p>
+  <p v-show="connecte"> {{this.utilisateur}} </p>
     <v-img :src="'https://i.imgur.com/kHiOUcE.gif'" height="300" width="300" gradient="to bottom, rgba(0,0,0,0), rgba(255,0,0,1)"> </v-img>
   </div>
 </template>
@@ -11,7 +12,20 @@ export default {
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
-      mail: ''
+      utilisateur: 'fsdfsdf',
+      connecte: false
+    }
+  },
+  created () {
+    let uti = app.auth().currentUser
+
+    if (uti != null) { // CA C'EST A TOI NICOLY DE VOIR POURQUOI CA NE MARCHE PAS
+      this.connecte = true
+      this.utilisateur = uti.displayName
+      console.log("yay")
+      console.log(this.connecte)
+    } else {
+      console.log("ljknfgjkb")
     }
   }
 }

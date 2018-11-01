@@ -12,25 +12,26 @@
       :type="show ? 'text' : 'password'"
       v-model="passe"
       label="Mot de passe"
-      name="input-10-1"
-      :rules="[rules.required, rules.min]"
+      :rules="rules"
       required
       counter
       @click:append="show = !show"
     ></v-text-field>
-
     <v-btn
       :disabled="!valid"
       @click="submit"
     >
       submit
     </v-btn>
-    <p> {{ errorMsg }} </p>
+    <h3> Tu n'as pas encore un compte chez nous? <a href='#/registre'> Inscrit-toi ici </a> </h3>
   </v-form>
+  <p> {{ errorMsg }} </p>
   </div>
 </template>
 
 <script>
+import router from '../router'
+
 export default {
   name: 'Login',
   data () {
@@ -41,32 +42,46 @@ export default {
       show: false,
       email: '',
       emailRules: [
-        v => !!v || 'E-mail is required',
-        v => /.+@.+/.test(v) || 'E-mail must be valid'
+        v => !!v || 'Obligatoire',
+        v => /.+@.+/.test(v) || 'E-mail doit être valide'
       ],
       passe: '',
-      rules: {
-          required: value => !!value || 'Required.',
-          min: v => v.length >= 10 || 'Min 10 characters',
-          emailMatch: () => ('The email and password you entered don\'t match')
-      }
+      rules: [
+        v => !!v || 'Obligatoire',
+        v => v.length >= 4 || 'Min 4 caractères',
+        v => v.length <= 16 || 'Max 16 caractères'
+      ]
     }
   },
   methods: {
     submit: function() {
-      firebase.auth().signInAndRetrieveDataWithEmailAndPassword(this.email, this.passe).catch(function(error) {
-        var errorCode = error.code
-        var errorMessage = error.message
+      app.auth().signInWithEmailAndPassword(this.email, this.passe)
+      .then(function(error){
+        let uti = app.auth().currentUser
+
+        if (!uti.emailVerified) {
+          alert("S'il vous plaît, confirmez votre inscription pour pouvoir vous connecter")
+          app.auth().signOut().then( function() {
+            console.log('Haha !')
+            return
+          }, function(error) {
+            console.log('Merde', error)
+          })
+        } else {
+          router.push('/')
+        }
+      })
+      .catch(function(error) {
+        let errorCode = error.code
+        let errorMessage = error.message
         if (errorCode === 'auth/wrong-password') {
-          this.errorMsg = 'Wrong password.'
+          alert('Wrong password.')
           return
         } else {
-          this.errorMsg = errorMessage
+          alert(errorMessage)
           return
         }
       })
-
-      console.log('Success')
     }
   }
 }

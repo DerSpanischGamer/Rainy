@@ -23,19 +23,20 @@
       counter
       @click:append="show = !show"
     ></v-text-field>
-
     <v-btn
       :disabled="!valid"
       @click="submit"
     >
       submit
     </v-btn>
+    <p> {{ this.error }} </p>
+    <br>
+    <h3> Tu as déjà un compte chez nous? <a href='#/login'> Connecte-toi ici </a> </h3>
   </v-form>
   </div>
 </template>
 
 <script>
-import axios from "axios"
 import * as firebase from 'firebase'
 import router from '../router'
 
@@ -45,6 +46,7 @@ export default {
     return {
       msg: 'Inscrit toi sur notre site :)',
       valid: true,
+      error: '',
       show: false,
       email: '',
       emailRules: [
@@ -54,7 +56,7 @@ export default {
       utilisateur: '',
       passe: '',
       rules: [
-        v => !!v || 'Obligatoire.',
+        v => !!v || 'Obligatoire',
         v => v.length >= 4 || 'Min 4 caractères',
         v => v.length <= 16 || 'Max 16 caractères'
       ],
@@ -74,7 +76,6 @@ export default {
         const obj = data.val()
         for (let key in obj) {
           user.push({
-            email: obj[key].email,
             utilisateur: obj[key].utilisateur
           })
         }
@@ -82,13 +83,13 @@ export default {
         // Tout le code doit s'executer ici car sinon l'app ne se syncronise pas a cause du delai du serveur
         for (let i = 0; i < user.length; i++) {
           if (user[i].utilisateur == this.utilisateur) {
-            console.log("Nom d'utilisateur deja pris")
+            this.error = "Nom d'utilisateur deja pris"
             return
           }
         }
         for (let i = 0; i < this.utilisateur.length; i++) {
           if (this.utilisateur[i] == " ") {
-            console.log("Le nom d'utilisateur ne peut pas contenir des espaces")
+            this.error = "Le nom d'utilisateur ne peut pas contenir des espaces"
             return
           }
         }
@@ -97,7 +98,7 @@ export default {
         // Si on arrive jusqu'ici c'est que le mail et le nom sont ok
         app.auth().createUserWithEmailAndPassword(this.email, this.passe)
         .then(function() {
-          let utilisa = app.auth().currentUser;
+          let utilisa = app.auth().currentUser
           let uid = utilisa.uid
           console.log(uid)
 
@@ -118,14 +119,17 @@ export default {
             console.log(error)
           })
         }).catch(function(error) {
-          console.log(error)
+          alert(error.message)
         })
       })
       .catch(
         (error) => {
-          console.log(error)
+          console.error(error.message)
         }
       )
+    },
+    erreur (e) {
+      this.error = e
     }
   }
 }
