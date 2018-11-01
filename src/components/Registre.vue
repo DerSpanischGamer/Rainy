@@ -37,6 +37,7 @@
 <script>
 import axios from "axios"
 import * as firebase from 'firebase'
+import router from '../router'
 
 export default {
   name: 'Registre',
@@ -77,7 +78,6 @@ export default {
             utilisateur: obj[key].utilisateur
           })
         }
-        console.log(user)
 
         // Tout le code doit s'executer ici car sinon l'app ne se syncronise pas a cause du delai du serveur
         for (let i = 0; i < user.length; i++) {
@@ -93,35 +93,32 @@ export default {
           }
         }
         let uti = this.utilisateur
-        let mail = this.email
+
         // Si on arrive jusqu'ici c'est que le mail et le nom sont ok
         app.auth().createUserWithEmailAndPassword(this.email, this.passe)
         .then(function() {
-          let user = app.auth().currentUser;
-          console.log(user)
-          user.updateProfile({
-            displayName: uti,
-            photoURL: "https://pm1.narvii.com/6417/f841c8c25c9939c1c56c41b7faef7c1e0065b1ec_128.jpg",
-          })
+          let utilisa = app.auth().currentUser;
+          let uid = utilisa.uid
+          console.log(uid)
+
+          utilisa.sendEmailVerification()
           .then(function() {
-            user.sendEmailVerification()
+            utilisa.updateProfile({
+              displayName: uti,
+              photoURL: "https://pm1.narvii.com/6417/f841c8c25c9939c1c56c41b7faef7c1e0065b1ec_128.jpg"
+            })
             .then(function() {
-              function writeUserData() { // CETTE PARTIE NE FONCTIONNE PAS MAIS LE CODE EST BIEN ECRIT DONC WTFFFFFFF JE REGARDERAI UN AUTRE JOUR JE VAIS BOSSER PHILO
-                app.database().ref('users/hola').set({
-                  bio: ":3",
-                  role: "user"
-                })
-              }
-              console.log("Bien")
-            }).catch(function(error) {
+              router.push('/confirmation')
+              console.log("ok")
+            })
+            .catch(function(error) {
               console.log(error)
             })
-          })
-          .catch(function(error) {
+          }).catch(function(error) {
             console.log(error)
           })
         }).catch(function(error) {
-          console.log(error.message)
+          console.log(error)
         })
       })
       .catch(

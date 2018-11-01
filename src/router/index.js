@@ -4,6 +4,7 @@ import Main from '@/components/Main'
 import Login from '@/components/Login'
 import Registre from '@/components/Registre'
 import User from '@/components/User'
+import Confirmer from '@/components/Confirmer'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/user',
       name: 'User',
       component: User
+    },
+    {
+      path: '/confirmation',
+      name: 'Confirmer',
+      component: Confirmer
     }
   ]
 })
