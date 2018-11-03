@@ -1,31 +1,32 @@
 <template>
   <div class="Login">
     <v-form ref="form" v-model="valid" lazy-validation>
-    <v-text-field
-      v-model="email"
-      :rules="emailRules"
-      label="E-mail"
-      required
-    ></v-text-field>
-    <v-text-field
-      :append-icon="show ? 'visibility_off' : 'visibility'"
-      :type="show ? 'text' : 'password'"
-      v-model="passe"
-      label="Mot de passe"
-      :rules="rules"
-      required
-      counter
-      @click:append="show = !show"
-    ></v-text-field>
-    <v-btn
-      :disabled="!valid"
-      @click="submit"
-    >
+      <v-text-field
+        v-model="email"
+        :rules="emailRules"
+        label="E-mail"
+        required
+      ></v-text-field>
+      <v-text-field
+        :append-icon="show ? 'visibility_off' : 'visibility'"
+        :type="show ? 'text' : 'password'"
+        v-model="passe"
+        label="Mot de passe"
+        :rules="rules"
+        required
+        counter
+        @click:append="show = !show"
+      ></v-text-field>
+      <h4> Mot de passe oublié? Pas de souci, clicke <a href="/#/oublie"> ici </a> pour le réseter. </h4>
+      <v-btn
+        :disabled="!valid"
+        @click="submit"
+      >
       submit
-    </v-btn>
-    <h3> Tu n'as pas encore un compte chez nous? <a href='#/registre'> Inscrit-toi ici </a> </h3>
-  </v-form>
-  <p> {{ errorMsg }} </p>
+      </v-btn>
+      <h3> Tu n'as pas encore un compte chez nous? <a href='#/registre'> Inscrit-toi ici </a> </h3>
+    </v-form>
+    <p> {{ errorMsg }} </p>
   </div>
 </template>
 
@@ -38,7 +39,7 @@ export default {
     return {
       msg: ':3',
       errorMsg: '',
-      valid: true,
+      valid: false,
       show: false,
       email: '',
       emailRules: [
