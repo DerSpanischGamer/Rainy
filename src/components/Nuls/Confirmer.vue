@@ -1,5 +1,5 @@
 <template>
-  <div class="Main">
+  <div class="Confirmer">
     <h1> Merci de t'inscrire sur Rainy </h1>
     <br>
     <h2> Maintenant, pour pouvoir te connecter, confirme ton mail </h2>
@@ -8,10 +8,10 @@
 
 <script>
 export default {
-  name: 'Main',
+  name: 'Confirmer',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Confirme ton mail'
     }
   },
   created () {
@@ -27,7 +27,10 @@ export default {
         utilisateur: utilisateur,
         email: email,
         bio: 'Salut, Neko !',
-        role: 'user'
+        role: 'user',
+        suit:    [ 'id' ],
+        suivant: [ 'id' ],
+        posts:   [ 'id' ]
       }, function(error) {
         if (error) {
           console.log(error)

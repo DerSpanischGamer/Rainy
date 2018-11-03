@@ -10,8 +10,17 @@ export default {
   name: 'User',
   data () {
     return {
-        msg: 'Page profile de qqn :)'
+        msg: 'Page profile de qqn :)',
+        bio = '',
+        posts = []
     }
+  },
+  created() {
+    users.ref(this.$route.params.id).once('value')
+    .then((data) => {
+      const obj = data.val()
+      obj
+    })
   }
 }
 </script>

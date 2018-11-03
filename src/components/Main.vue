@@ -12,7 +12,7 @@ export default {
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
-      utilisateur: 'fsdfsdf',
+      utilisateur: 'rien',
       connecte: false
     }
   },

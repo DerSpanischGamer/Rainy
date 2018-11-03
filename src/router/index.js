@@ -4,10 +4,10 @@ import Main from '@/components/Main'
 import Login from '@/components/Login'
 import Registre from '@/components/Registre'
 import User from '@/components/User'
-import Confirmer from '@/components/Confirmer'
-import Oublie from '@/components/Oublie'
-import Fini from '@/components/Fini'
-import Error from '@/components/404'
+import Confirmer from '@/components/Nuls/Confirmer'
+import Oublie from '@/components/Nuls/Oublie'
+import Fini from '@/components/Nuls/Fini'
+import Error from '@/components/Nuls/404'
 
 Vue.use(Router)
 
@@ -29,7 +29,7 @@ export default new Router({
       component: Registre
     },
     {
-      path: '/user',
+      path: '/user&:id',
       name: 'User',
       component: User
     },
