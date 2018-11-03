@@ -19,7 +19,10 @@ export default {
     users.ref(this.$route.params.id).once('value')
     .then((data) => {
       const obj = data.val()
-      obj
+      this.bio = obj.bio
+      this.posts = obj.posts
+
+      
     })
   }
 }
