@@ -11,8 +11,8 @@ export default {
   data () {
     return {
         msg: 'Page profile de qqn :)',
-        bio = '',
-        posts = []
+        bio: '',
+        posts: []
     }
   },
   created() {
@@ -22,7 +22,7 @@ export default {
       this.bio = obj.bio
       this.posts = obj.posts
 
-      
+
     })
   }
 }
