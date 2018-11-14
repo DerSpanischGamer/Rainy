@@ -26,6 +26,7 @@ export default {
       console.log(this.connecte)
     } else {
       console.log("ljknfgjkb")
+      // MONTRER EN HAUT DROITE LOGIN
     }
   }
 }

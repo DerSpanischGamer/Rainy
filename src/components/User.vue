@@ -11,18 +11,18 @@ export default {
   data () {
     return {
         msg: 'Page profile de qqn :)',
-        bio = '',
-        posts = []
+        bio: '',
+        posts: []
     }
   },
   created() {
-    users.ref(this.$route.params.id).once('value')
+    this.id = this.$route.params.id
+
+    users.ref(this.id).once('value')
     .then((data) => {
       const obj = data.val()
       this.bio = obj.bio
       this.posts = obj.posts
-
-      
     })
   }
 }
