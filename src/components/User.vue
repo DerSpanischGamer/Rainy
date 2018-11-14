@@ -11,6 +11,10 @@ export default {
   data () {
     return {
         msg: 'Page profile de qqn :)',
+<<<<<<< HEAD
+=======
+        id: '',
+>>>>>>> 57bb78c6485cae8bae552b090aecc0c0229293fb
         bio: '',
         posts: []
     }
