@@ -36,7 +36,6 @@
     </v-toolbar-items>
   </v-toolbar>
   <div class="text-xs-center">
-
  </div>
 
 
