@@ -7,6 +7,7 @@
     <v-toolbar-items class="hidden-sm-and-down">
       <v-btn flat to="/"> Home </v-btn>
       <v-btn flat to="/login"> Login </v-btn>
+      <h1> {{ a }} </h1>
     </v-toolbar-items>
   </v-toolbar>
   <div class="text-xs-center">
@@ -28,7 +29,19 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  data () {
+    return {
+        id: '',
+        a: 0
+    }
+  },
+  created() {
+    this.id = this.$route.params.id
+    this.a += 1
+
+
+  }
 }
 </script>
 

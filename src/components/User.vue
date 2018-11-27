@@ -1,7 +1,47 @@
 <template>
   <div class="User">
-    <p> yup</p>
+    <v-container fluid>
+      <v-layout row wrap justify-end row fill-height>
+        <v-flex xs6 order-lg2>
 
+          # POSTs
+
+
+        </v-flex>
+        <v-flex xs6 order-lg2>
+
+
+          {{ this.photo }}
+
+          <v-card
+          class="mx-auto elevation-20"
+          color="purple"
+          dark
+          style="max-width: 400px;"
+          >
+            <v-layout justify-space-between>
+              <v-flex xs8>
+                <v-card-title primary-title>
+                  <div>
+                    <div class="headline"> {{ this.name }}</div>
+                    <div>Ellie Goulding</div>
+                    <div> {{ this.bio }} </div>
+                  </div>
+                </v-card-title>
+              </v-flex>
+              <v-img
+              class="shrink ma-2"
+              contain
+              height="125px"
+              src="https://cdn.vuetifyjs.com/images/cards/halcyon.png"
+              style="flex-basis: 125px"
+              ></v-img>
+            </v-layout>
+            <v-divider dark></v-divider>
+          </v-card>
+        </v-flex>
+      </v-layout>
+    </v-container>
   </div>
 </template>
 
@@ -11,10 +51,9 @@ export default {
   data () {
     return {
         msg: 'Page profile de qqn :)',
-<<<<<<< HEAD
-=======
+        name: '',
+        photo: '',
         id: '',
->>>>>>> 57bb78c6485cae8bae552b090aecc0c0229293fb
         bio: '',
         posts: []
     }
@@ -22,11 +61,16 @@ export default {
   created() {
     this.id = this.$route.params.id
 
-    users.ref(this.id).once('value')
+    db.ref('users/' + this.id).once('value')
     .then((data) => {
       const obj = data.val()
+      console.log(obj)
+      this.name = obj.displayName
       this.bio = obj.bio
       this.posts = obj.posts
+    })
+    .catch(function(error) {
+      console.log("slfjsb")
     })
   }
 }
