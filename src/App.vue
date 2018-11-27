@@ -1,23 +1,25 @@
 <template>
-  <div id="app">
+  <div id="app" class="black">
     <v-toolbar>
-    <v-toolbar-side-icon></v-toolbar-side-icon>
+    <v-toolbar-side-icon>
+       <v-menu :nudge-width="100">
+        <v-toolbar-title slot="activator">
+          <span>More</span>
+          <v-icon dark>arrow_drop_down</v-icon>
+        </v-toolbar-title>
+      <v-list>
+           <v-list-tile
+             v-for="item in items"
+             :key="item"
+             @click=""
+           >
+             <v-list-tile-title v-text="item"></v-list-tile-title>
+           </v-list-tile>
+         </v-list>
+       </v-menu>
+     </v-toolbar-side-icon>
 
-    <v-menu :nudge-width="100">
-      <v-toolbar-title slot="activator">
-        <span>All</span>
-        <v-icon dark>arrow_drop_down</v-icon>
-      </v-toolbar-title>
-    <v-list>
-         <v-list-tile
-           v-for="item in items"
-           :key="item"
-           @click=""
-         >
-           <v-list-tile-title v-text="item"></v-list-tile-title>
-         </v-list-tile>
-       </v-list>
-     </v-menu>
+
   <v-toolbar-title><a href="/"> Rainy </a> </v-toolbar-title>
      <v-spacer></v-spacer>
 

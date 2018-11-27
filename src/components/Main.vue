@@ -1,6 +1,7 @@
 <template>
   <div class="Main"
   <p v-show="connecte"> {{this.utilisateur}} </p>
+  
   </div>
 </template>
 
