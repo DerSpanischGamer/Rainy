@@ -21,7 +21,7 @@
       messagingSenderId: "854893642633"
     };
     let app = firebase.initializeApp(config)
-    let db = app.database()
+    let db = firebase.database()
 
     let users = db.ref('users')
     let posts = db.ref('posts')

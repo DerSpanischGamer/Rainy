@@ -7,14 +7,14 @@
           <span>More</span>
           <v-icon dark>arrow_drop_down</v-icon>
         </v-toolbar-title>
-      <v-list>
-           <v-list-tile
-             v-for="item in items"
-             :key="item"
-             @click=""
-           >
-             <v-list-tile-title v-text="item"></v-list-tile-title>
-           </v-list-tile>
+        <v-list>
+          <v-list-tile
+          v-for="item in items"
+          :key="item"
+          @click=""
+          >
+          <v-list-tile-title v-text="item"></v-list-tile-title>
+          </v-list-tile>
          </v-list>
        </v-menu>
      </v-toolbar-side-icon>
@@ -34,7 +34,6 @@
     <v-toolbar-items class="hidden-sm-and-down">
       <v-btn flat to="/"> Home </v-btn>
       <v-btn flat to="/login"> Login </v-btn>
-      <h1> {{ a }} </h1>
     </v-toolbar-items>
   </v-toolbar>
   <div class="text-xs-center">
@@ -55,9 +54,6 @@ export default {
    }),
    created() {
      this.id = this.$route.params.id
-     this.a += 1
-
-
    }
 }
 

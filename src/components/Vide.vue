@@ -1,22 +1,5 @@
 <template>
   <div class="Main">
-    <v-layout>
-     <v-flex xs12 sm6 offset-sm3>
-       <v-card>
-         <v-card-title primary-title>
-           <div>
-             <h3 class="headline mb-0">chats</h3>
-             <div>Located two hours south of Sydney in the <br>Southern Highlands of New South Wales, ...</div>
-           </div>
-         </v-card-title>
-
-         <v-card-actions>
-           <v-btn flat color="orange">Share</v-btn>
-           <v-btn flat color="orange">Explore</v-btn>
-         </v-card-actions>
-       </v-card>
-     </v-flex>
-    </v-layout>
   </div>
 </template>
 
@@ -27,6 +10,19 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
+  },
+  created() {
+    let myRef = db.ref("/communities")
+    let cle = myRef.key
+
+    let com = {
+      posts: [],
+      nom: "Chiens",
+      description: "Des images des chiens",
+      suit: [ "7tt0PkwvO5VC9wdOkaLYYd3vtIs1" ]
+    }
+
+    //myRef.push(com) ENLEVER LE COMMENTAIRE SI TU VEUX CREER UNE NOUVELLE COMMUNAUTE
   }
 }
 </script>

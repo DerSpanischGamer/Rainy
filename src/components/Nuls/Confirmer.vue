@@ -28,9 +28,9 @@ export default {
         email: email,
         bio: 'Salut, Neko !',
         role: 'user',
-        suit:    [ 'id' ],
-        suivant: [ 'id' ],
-        posts:   [ 'id' ]
+        communautes: [],
+        likes: [],
+        posts: []
       }, function(error) {
         if (error) {
           console.log(error)

@@ -8,6 +8,8 @@ import Confirmer from '@/components/Nuls/Confirmer'
 import Oublie from '@/components/Nuls/Oublie'
 import Fini from '@/components/Nuls/Fini'
 import Error from '@/components/Nuls/404'
+import Vide from '@/components/Vide'
+import Communaute from '@/components/Communaute'
 
 Vue.use(Router)
 
@@ -34,6 +36,11 @@ export default new Router({
       component: User
     },
     {
+      path: '/communaute&:id',
+      name: 'Communaute',
+      component: Communaute
+    },
+    {
       path: '/confirmation',
       name: 'Confirmer',
       component: Confirmer
@@ -47,6 +54,11 @@ export default new Router({
       path: '/fini',
       name: 'Fini',
       component: Fini
+    },
+    {
+      path: '/test',
+      name: 'Vide',
+      component: Vide
     },
     {
       path: '*',
