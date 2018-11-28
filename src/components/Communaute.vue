@@ -1,5 +1,6 @@
 <template>
   <div class="Communaute">
+    <h1> {{ this.post }} </h1>
   </div>
 </template>
 
@@ -28,7 +29,7 @@ export default {
       this.description = obj.description
       this.posts = obj.posts
 
-      if (this.post != null) { this.post = this.posts.length }
+      if (this.posts.length != 1) { this.post = this.posts.length }
     })
     .catch(function(error) {
       console.log(error)
