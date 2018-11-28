@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="black">
+  <div id="app" >
     <v-toolbar>
     <v-toolbar-side-icon>
        <v-menu :nudge-width="100">

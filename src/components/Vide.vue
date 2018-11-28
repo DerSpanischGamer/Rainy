@@ -1,5 +1,5 @@
 <template>
-  <div class="Main">
+  <div class="vide">
     <v-layout>
      <v-flex xs12 sm6 offset-sm3>
        <v-card>
@@ -22,7 +22,7 @@
 
 <script>
 export default {
-  name: 'Main',
+  name: 'vide',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
