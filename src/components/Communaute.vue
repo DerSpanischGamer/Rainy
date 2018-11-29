@@ -1,6 +1,6 @@
 <template>
   <div class="Communaute">
-    <h1> {{ this.post }} </h1>
+    <h1> {{ this.posts }} </h1>
   </div>
 </template>
 

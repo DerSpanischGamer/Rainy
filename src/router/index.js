@@ -10,6 +10,7 @@ import Fini from '@/components/Nuls/Fini'
 import Error from '@/components/Nuls/404'
 import Vide from '@/components/Vide'
 import Communaute from '@/components/Communaute'
+import Post from '@/components/Nuls/Post'
 
 Vue.use(Router)
 
@@ -59,6 +60,11 @@ export default new Router({
       path: '/test',
       name: 'Vide',
       component: Vide
+    },
+    {
+      path: '/post',
+      name: 'Post',
+      component: Post
     },
     {
       path: '*',

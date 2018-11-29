@@ -28,9 +28,13 @@ export default {
         email: email,
         bio: 'Salut, Neko !',
         role: 'user',
-        communautes: [],
-        likes: [],
-        posts: []
+        communautes: {
+		      "id" : "id",
+          "-LSLz8rGF-jWOBgNokJD" : "-LSLz8rGF-jWOBgNokJD",
+          "-LSLz8rGF-jWOBgNokJ" : "-LSLz8rGF-jWOBgNokJ"
+        },
+        likes: { "id" : "id" },
+        posts: { "id" : "id" }
       }, function(error) {
         if (error) {
           console.log(error)
