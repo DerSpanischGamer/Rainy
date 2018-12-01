@@ -31,7 +31,7 @@ export default {
         communautes: {
 		      "id" : "id",
           "-LSLz8rGF-jWOBgNokJD" : "-LSLz8rGF-jWOBgNokJD",
-          "-LSLz8rGF-jWOBgNokJ" : "-LSLz8rGF-jWOBgNokJ"
+          "-LSLzGRNCoZeruEpRYLA" : "-LSLzGRNCoZeruEpRYLA"
         },
         likes: { "id" : "id" },
         posts: { "id" : "id" }
