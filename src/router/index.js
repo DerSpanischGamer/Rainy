@@ -13,6 +13,7 @@ import Oublie from '@/components/Nuls/Oublie'
 import Fini from '@/components/Nuls/Fini'
 import Error from '@/components/Nuls/404'
 import Post from '@/components/Nuls/Post'
+import Admin from '@/components/Nuls/Admin'
 
 Vue.use(Router)
 
@@ -67,6 +68,11 @@ export default new Router({
       path: '/post',
       name: 'Post',
       component: Post
+    },
+    {
+      path: '/admin',
+      name: 'Admin',
+      component: Admin
     },
     {
       path: '*',

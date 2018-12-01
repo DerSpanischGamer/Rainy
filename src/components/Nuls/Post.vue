@@ -29,7 +29,7 @@ export default {
   created() {
     let user = app.auth().currentUser
 
-    if (user == null || !user.emailVerified) { /*router.push('/')*/ }
+    if (user == null || !user.emailVerified) { /*router.push('/')*/ } // TODO: Uncomment avant de lancer le site
   },
   methods: {
     submit: function() {
@@ -42,9 +42,10 @@ export default {
         communaute: this.com_selec,
         description: this.description,
         image: this.image,
-        likes: { "id": "id", uid: uid }
+        likes: { "id": "id" }
       }
-
+      post.likes[uid] = uid
+      
       posts.push(post)
       .then((snap) => {
         const key = snap.key
