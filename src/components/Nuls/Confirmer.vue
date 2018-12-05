@@ -23,7 +23,8 @@ export default {
       email = user.email
       id = user.uid
 
-      db.ref('users/' + id).set({
+      db.ref('users/' + id)
+      .set({
         utilisateur: utilisateur,
         email: email,
         bio: 'Salut, Neko !',
@@ -43,6 +44,19 @@ export default {
             console.log('Haha !')
           }, function(error) {
             console.log('Merde', error)
+          })
+        }
+      })
+      .then(function() {
+        let defaultComs = [ '-LSLz8rGF-jWOBgNokJD', '-LSLzGRNCoZeruEpRYLA' ]
+
+        for (let com in defaultComs) {
+          db.ref('communities/' + com + '/suit').once('value')
+          .then((data) => {
+            let liste = data.val().suit
+            liste[id] = id
+
+            db.ref('communities/' + com + '/suit').set(liste)
           })
         }
       })

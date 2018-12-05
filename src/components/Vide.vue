@@ -1,5 +1,14 @@
 <template>
   <div class="Vide">
+    <v-text-field
+    v-model="nom"
+    label="Nom"
+    required> </v-text-field>
+    <v-text-field
+    v-model="description"
+    label="Description"
+    required> </v-text-field>
+    <v-btn @click="nouvelleCom"> Creer une nouvelle communaute </v-btn>
   </div>
 </template>
 
@@ -11,23 +20,33 @@ export default {
   data () {
     return {
       msg: 'Faire les tests ici',
-      posts: []
+      nom: '',
+      description: ''
     }
   },
-  created() {
-    let com_ = db.ref("/communities")
-    let cle = com_.key
+  created () {
+    let user = app.auth().currentUser
 
-    let com = {
-      posts: { "id": "id" },
-      nom: "Chiens",
-      description: "Des images des chiens",
-      suit: { "id": "id" }
+    console.log(admin.auth().getUser(uid))
+    //TODO: uncomment pour quand on lance le site
+    /*if (user != null) {
+      if (user.role != "admin") { router.push('/') }
+    } else { router.push('/') } */
+  },
+  methods: {
+    nouvelleCom: function () {
+        let com_ = db.ref("/communities")
+        let cle = com_.key
+
+        let com = {
+          description: "Des images des filles chat",
+          nom: "Filles chat",
+          posts: { "id": "id" },
+          suit: { "id": "id" }
+        }
+
+        com_.push(com)
     }
-
-    //com_.push(com) ENLEVER LE COMMENTAIRE SI TU VEUX CREER UNE NOUVELLE COMMUNAUTE
-
-    let commun = '-LSLz8rGF-jWOBgNokJD'
   }
 }
 </script>
