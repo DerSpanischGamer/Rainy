@@ -47,7 +47,7 @@ export default {
 
         let posts = obj.posts
         for (let post in posts) {
-          eliminarPost(posts[post])
+          if (posts[post] != 'id') { eliminarPost(posts[post]) } // Problema causado por el id
         }
 
         let communautes = obj.communautes
@@ -59,6 +59,11 @@ export default {
         for (let like in likes) {
           db.ref('posts/' + likes[like] + '/likes').child(this.uid_user).remove()
         }
+
+        users.child(this.uid_user).remove()
+
+        let dele = admin.auth().getUser(this.uid_user)
+        dele.delete()
       })
     },
     eliminarPost: function(uid) { // uid ici c'est l'uid de l'utilisateur

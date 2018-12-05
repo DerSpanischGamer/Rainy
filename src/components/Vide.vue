@@ -8,7 +8,32 @@
     v-model="description"
     label="Description"
     required> </v-text-field>
-    <v-btn @click="nouvelleCom"> Creer une nouvelle communaute </v-btn>
+    <v-btn disabled @click="nouvelleCom"> Creer une nouvelle communaute </v-btn>
+    <br>
+    <br>
+    <br>
+    <br>
+    <v-navigation-drawer
+      class="blue lighten-3"
+      dark
+      permanent
+    >
+      <v-list xs2 >
+        <v-list-tile
+          v-for="item in items"
+          :key="item.title"
+          @click=""
+        >
+          <v-list-tile-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-tile-action>
+
+          <v-list-tile-content>
+            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
   </div>
 </template>
 
@@ -25,9 +50,9 @@ export default {
     }
   },
   created () {
-    let user = app.auth().currentUser
+    let user = app.auth().getUser('7tt0PkwvO5VC9wdOkaLYYd3vtIs1') //TODO: installer firebase-admin
 
-    console.log(admin.auth().getUser(uid))
+    console.log(user)
     //TODO: uncomment pour quand on lance le site
     /*if (user != null) {
       if (user.role != "admin") { router.push('/') }

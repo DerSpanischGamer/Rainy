@@ -56,6 +56,8 @@ export default {
   },
   methods: {
     submit: function() {
+      app.auth().setPertinence(firebase.auth.Auth.Persistence.SESSION)
+      
       app.auth().signInWithEmailAndPassword(this.email, this.passe)
       .then(function(error){
         let uti = app.auth().currentUser
