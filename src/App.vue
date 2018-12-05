@@ -1,26 +1,8 @@
 <template>
   <div id="app" >
+    <p v-show="connecte"> {{this.utilisateur}} </p>
     <v-toolbar>
-    <v-toolbar-side-icon>
-       <v-menu :nudge-width="100">
-        <v-toolbar-title slot="activator">
-          <span>More</span>
-          <v-icon dark>arrow_drop_down</v-icon>
-        </v-toolbar-title>
-        <v-list>
-          <v-list-tile
-          v-for="item in items"
-          :key="item"
-          @click=""
-          >
-          <v-list-tile-title v-text="item"></v-list-tile-title>
-          </v-list-tile>
-         </v-list>
-       </v-menu>
-     </v-toolbar-side-icon>
-
-
-  <v-toolbar-title><a href="/"> Rainy </a> </v-toolbar-title>
+  <v-toolbar-title> Rainy  </v-toolbar-title>
      <v-spacer></v-spacer>
 
      <v-btn icon>
@@ -47,14 +29,21 @@
 <script>
 export default {
   name: 'App',
-  data: () => ({
-     items: [
-       'All', 'Cats', 'Dogs', 'Caca'
-     ]
-   }),
    created() {
      this.id = this.$route.params.id
-   }
+     let uti = app.auth().currentUser
+
+     if (uti != null) { // CA C'EST A TOI NICOLY DE VOIR POURQUOI CA NE MARCHE PAS, montrer symbole si utilisateur connecté
+       this.connecte = true
+       this.utilisateur = uti.displayName
+       console.log("yay")
+       console.log(this.connecte)
+     }
+     else {
+       console.log("ljknfgjkb")
+       // MONTRER EN HAUT DROITE LOGIN
+     }
+   },
 }
 
 </script>

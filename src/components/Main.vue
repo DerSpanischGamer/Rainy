@@ -1,10 +1,9 @@
 <template>
   <div class="Main">
-  <p v-show="connecte"> {{this.utilisateur}} </p>
+
+  <p class="text-lg-right">
   <v-navigation-drawer
     class="blue lighten-3"
-    dark
-    permanent
   >
     <v-list xs2 >
       <v-list-tile
@@ -22,7 +21,9 @@
       </v-list-tile>
     </v-list>
   </v-navigation-drawer>
+  </p>
   </div>
+</div>
 </template>
 
 <script>
@@ -38,19 +39,6 @@ export default {
            { title: 'Account', icon: 'account_box' },
            { title: 'Admin', icon: 'gavel' }
          ]
-    }
-  },
-  created () {
-    let uti = app.auth().currentUser
-
-    if (uti != null) { // CA C'EST A TOI NICOLY DE VOIR POURQUOI CA NE MARCHE PAS, montrer symbole si utilisateur connecté
-      this.connecte = true
-      this.utilisateur = uti.displayName
-      console.log("yay")
-      console.log(this.connecte)
-    } else {
-      console.log("ljknfgjkb")
-      // MONTRER EN HAUT DROITE LOGIN
     }
   }
 }
