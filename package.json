@@ -14,7 +14,8 @@
     "axios": "^0.18.0",
     "fast-crc32c": "^1.0.4",
     "firebase": "^5.5.4",
-    "firebase-admin": "^6.3.0",
+    "firebase-admin": "^6.4.0",
+    "firebase-functions": "^2.1.0",
     "googleapis": "^27.0.0",
     "http2": "^3.3.7",
     "nodemailer": "^4.6.8",
@@ -22,8 +23,7 @@
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vuetify": "^1.2.9",
-    "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.0.0"
+    "webpack-cli": "^3.1.2"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
@@ -69,6 +69,7 @@
     "vue-template-compiler": "^2.5.2",
     "webpack": "^3.6.0",
     "webpack-bundle-analyzer": "^2.9.0",
+    "webpack-dev-server": "2.11.1",
     "webpack-merge": "^4.1.0"
   },
   "engines": {

@@ -25,7 +25,7 @@
           @click=""
         >
           <v-list-tile-action>
-            <v-icon>{{ item.icon }}</v-icon>
+            <v-icon> {{ item.icon }} </v-icon>
           </v-list-tile-action>
 
           <v-list-tile-content>
@@ -38,21 +38,26 @@
 </template>
 
 <script>
-import * as firebase from 'firebase'
-
 export default {
   name: 'Vide',
   data () {
     return {
       msg: 'Faire les tests ici',
       nom: '',
-      description: ''
+      description: '',
+      items: []
     }
   },
   created () {
-    let user = app.auth().getUser('7tt0PkwvO5VC9wdOkaLYYd3vtIs1') //TODO: installer firebase-admin
+    let user = db.ref('users/' + '6QDhDsOWXHTR2eKrU4qk3tAMqXV2').once('value')
+    .then((data) => {
+      const obj = data.val()
 
-    console.log(user)
+      for (let pro in user) {
+        console.log(obj[pro])
+      }
+    })
+
     //TODO: uncomment pour quand on lance le site
     /*if (user != null) {
       if (user.role != "admin") { router.push('/') }

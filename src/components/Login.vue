@@ -32,6 +32,7 @@
 
 <script>
 import router from '../router'
+import * as firebase from 'firebase'
 
 export default {
   name: 'Login',
@@ -56,8 +57,6 @@ export default {
   },
   methods: {
     submit: function() {
-      app.auth().setPertinence(firebase.auth.Auth.Persistence.SESSION)
-      
       app.auth().signInWithEmailAndPassword(this.email, this.passe)
       .then(function(error){
         let uti = app.auth().currentUser
@@ -71,7 +70,16 @@ export default {
             console.log('Merde', error)
           })
         } else {
-          router.push('/')
+          if (uti.role != 'banned') {
+            router.push('/')
+          } else {
+            app.auth().signOut().then( function() {
+              alert('NON')
+              return
+            }, function(error) {
+              console.log('Merde', error)
+            })
+          }
         }
       })
       .catch(function(error) {

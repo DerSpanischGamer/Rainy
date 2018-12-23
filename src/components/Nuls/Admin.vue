@@ -28,8 +28,6 @@ export default {
   created () {
     let user = app.auth().currentUser
 
-    console.log(admin.auth().getUser(uid))
-
     //TODO: uncomment pour quand on lance le site
     /*if (user != null) {
       if (user.role != "admin") { router.push('/') }

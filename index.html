@@ -12,7 +12,7 @@
     <script src="https://www.gstatic.com/firebasejs/5.5.4/firebase.js"></script>
     <script>
     // Initialize Firebase
-    var config = {
+    let config = {
       apiKey: "AIzaSyBx_yw13EcY6vsoSvJY9JuiLibi4ZCMqn0",
       authDomain: "rainy-79819.firebaseapp.com",
       databaseURL: "https://rainy-79819.firebaseio.com",
@@ -22,11 +22,10 @@
     };
     let app = firebase.initializeApp(config)
     let db = firebase.database()
+    let auth = firebase.auth()
 
     let users = db.ref('users')
     let posts = db.ref('posts')
-
-    const admin = firebase.admin;
   </script>
   </body>
 </html>
