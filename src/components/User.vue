@@ -2,43 +2,25 @@
   <div class="User">
     <v-container fluid>
       <v-layout row wrap justify-end row fill-height>
-        <v-flex xs6 order-lg2>
+        <v-flex xs9 order-lg2>
 
           # POSTs
-
+          <v-card v-for="(post, index) in final_posts" :key="post.id">
+            <v-card-title> <h3 class="headline mb-0"> {{ post.titre }} </h3> </v-card-title>
+            <v-card-media :src="post.image" height="500" ></v-card-media>
+            <v-card-title> <h2> {{ post.description }} </h2> </v-card-title>
+            <v-card-actions>
+              <v-btn flat v-if="id in post.likes" color="red" @click="dislike(index)"> Dislike </v-btn>
+              <v-btn flat v-else @click="like(post)"color="green"> Like </v-btn>
+              <h2> {{ longueur(post.likes) - 1 }} </h2>
+            </v-card-actions>
+          </v-card>
 
         </v-flex>
-        <v-flex xs6 order-lg2>
+        <v-flex xs3 order-lg2>
 
+          # IDK
 
-          {{ this.photo }}
-
-          <v-card
-          class="mx-auto elevation-20"
-          color="purple"
-          dark
-          style="max-width: 400px;"
-          >
-            <v-layout justify-space-between>
-              <v-flex xs8>
-                <v-card-title primary-title>
-                  <div>
-                    <div class="headline"> {{ this.name }}</div>
-                    <div>Ellie Goulding</div>
-                    <div> {{ this.bio }} </div>
-                  </div>
-                </v-card-title>
-              </v-flex>
-              <v-img
-              class="shrink ma-2"
-              contain
-              height="125px"
-              src="https://cdn.vuetifyjs.com/images/cards/halcyon.png"
-              style="flex-basis: 125px"
-              ></v-img>
-            </v-layout>
-            <v-divider dark></v-divider>
-          </v-card>
         </v-flex>
       </v-layout>
     </v-container>
@@ -46,6 +28,8 @@
 </template>
 
 <script>
+import router from '../router'
+
 export default {
   name: 'User',
   data () {
@@ -55,23 +39,65 @@ export default {
         photo: '',
         id: '',
         bio: '',
-        posts: []
+        posts: {},
+        true_posts: [],
+        final_posts: []
     }
   },
   created() {
-    this.id = this.$route.params.id
+    this.id = this.$route.params.id.replace(':', '')
 
     db.ref('users/' + this.id).once('value')
     .then((data) => {
       const obj = data.val()
       console.log(obj)
-      this.name = obj.displayName
+      this.name = obj.utilisateur
       this.bio = obj.bio
+
       this.posts = obj.posts
+      delete this.posts['id']
+
+      if (this.longueur(this.posts) == 0) { return; }
+
+      this.true_posts = Object.keys(this.posts)
+      this.true_posts.sort(function(a, b) {
+        return parseFloat(a) - parseFloat(b)
+      })
+
+      for (let post in this.true_posts) {
+        console.log(this.true_posts[post])
+        db.ref('posts/' + this.true_posts[post]).once('value')
+        .then((data) => {
+          this.final_posts.push(data.val())
+
+          if (post == this.true_posts.length - 1) { this.fini() }
+        })
+      }
     })
     .catch(function(error) {
-      console.log("slfjsb")
+      console.log(error)
     })
+  },
+  methods: {
+    longueur: function(obj) {
+      let l = 0;
+      for (let key in obj) {
+        if (obj.hasOwnProperty(key)) { l++ }
+      }
+      return l
+    },
+    fini: function() {
+      this.final_posts.sort(function(a, b) {
+        return b.date - a.date
+      })
+      console.log(this.final_posts)
+    },
+    dislike: function(arg) { // etant l'argument le string avec l'id du post
+      console.log(this.true_posts[arg])
+    },
+    like: function(arg) {
+      console.log(arg)
+    }
   }
 }
 </script>

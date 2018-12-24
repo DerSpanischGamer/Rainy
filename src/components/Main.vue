@@ -15,7 +15,7 @@
       <v-toolbar-items class="hidden-sm-and-down">
       <v-btn flat to="/"> Home </v-btn>
       <v-btn v-if="!connecte" flat to="/login"> Login </v-btn>
-      <v-btn v-if="connecte" flat to="/login"> {{ utilisateur }} </v-btn>
+      <v-btn v-if="connecte" flat @click="utilisa"> {{ utilisateur }} </v-btn>
     </v-toolbar-items>
   </v-toolbar>
   <p class="text-lg-right">
@@ -53,6 +53,8 @@
 </template>
 
 <script>
+import router from '../router'
+
 export default {
   name: 'Main',
   data () {
@@ -60,6 +62,7 @@ export default {
       msg: 'Welcome to Your Vue.js App',
       utilisateur: 'rien',
       connecte: false,
+      uid: '',
       items: [
            { title: 'Dashboard', icon: 'dashboard' },
            { title: 'Account', icon: 'account_box' },
@@ -72,11 +75,12 @@ export default {
     }
   },
    created() {
-     this.id = this.$route.params.id // TODO: enlever tous les commentaires
      let uti = firebase.auth().currentUser
 
      if (uti != null) {
        this.connecte = true
+       this.uid = '/user&:' + uti.uid;
+
        db.ref('users/' + uti.uid).once('value')
        .then((data) => {
            const obj = data.val()
@@ -87,6 +91,11 @@ export default {
      }
      else {
        console.log("Pas connecte")
+     }
+   },
+   methods: {
+     utilisa: function() {
+       router.push(this.uid)
      }
    }
 }

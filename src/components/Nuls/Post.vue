@@ -42,14 +42,24 @@ export default {
         communaute: this.com_selec,
         description: this.description,
         image: this.image,
-        likes: { "id": "id" }
+        likes: { "id": "id" },
+        date: firebase.database.ServerValue.TIMESTAMP
       }
       post.likes[uid] = uid
-      
+
       posts.push(post)
       .then((snap) => {
         const key = snap.key
         console.log(key)
+
+        db.ref('posts/' + key).once('value')
+        .then((data) => {
+          const obj = data.val()
+
+          obj[key] = key
+
+          db.ref('posts/' + key).set(obj)
+        })
 
         // Cette partie ajoute le post a la communaute
         db.ref('communities/' + this.com_selec).once('value')
