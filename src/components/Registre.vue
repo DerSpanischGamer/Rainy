@@ -106,7 +106,7 @@ export default {
           .then(function() {
             utilisa.updateProfile({
               displayName: uti,
-              photoURL: "https://pm1.narvii.com/6417/f841c8c25c9939c1c56c41b7faef7c1e0065b1ec_128.jpg"
+              photoURL: 'https://pm1.narvii.com/6417/f841c8c25c9939c1c56c41b7faef7c1e0065b1ec_128.jpg'
             })
             .then(function() {
               router.push('/confirmation')

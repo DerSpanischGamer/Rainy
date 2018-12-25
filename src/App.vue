@@ -1,27 +1,97 @@
 <template>
   <div id="app" >
-    <p v-show="connecte"> {{this.utilisateur}} </p>
-  <div class="text-xs-center">
- </div>
+      <v-toolbar>
+        <v-toolbar-title> Rainy </v-toolbar-title>
+        <v-spacer></v-spacer>
 
+        <v-btn icon>
+          <v-icon>search</v-icon>
+        </v-btn>
 
+        <v-btn icon>
+          <v-icon>favorite</v-icon>
+        </v-btn>
+
+        <v-toolbar-items class="hidden-sm-and-down">
+        <v-btn flat to="/"> Home </v-btn>
+        <v-btn v-if="!connecte" flat to="/login"> Login </v-btn>
+        <v-btn v-if="connecte" flat @click="utilisa"> {{ utilisateur }} </v-btn>
+      </v-toolbar-items>
+    </v-toolbar>
     <router-view/>
   </div>
 </template>
 
 <script>
+import router from './router'
+
 export default {
   name: 'App',
   data() {
     return {
+      hola: 'fsdf',
       connecte: false,
       utilisateur: '',
-      id : ''
+      id : '',
+      connecte: ''
+    }
+  },
+  created () {
+    let uti = app.auth().currentUser
+
+    if (uti != null) {
+      this.connecte = true
+      this.id  = uti.uid
+      this.uid = '/user&:' + uti.uid;
+
+      db.ref('users/' + uti.uid).once('value')
+      .then((data) => {
+        const obj = data.val()
+
+        this.utilisateur = obj.utilisateur
+      })
+    }
+    else {
+      console.log("Pas connecte")
+    }
+  },
+  updated: function() {
+    this.$nextTick(function() {
+      console.log("Rerendered")
+
+      let uti = app.auth().currentUser
+
+      if (uti != null) {
+        this.connecte = true
+        this.id  = uti.uid
+        this.uid = '/user&:' + uti.uid;
+
+        db.ref('users/' + uti.uid).once('value')
+        .then((data) => {
+            const obj = data.val()
+
+            this.utilisateur = obj.utilisateur
+        })
+      }
+      else {
+        console.log("Pas connecte")
+      }
+    })
+  },
+  methods: {
+    utilisa: function() {
+      router.push(this.uid)
+    },
+    getConnecte: function() {
+      let str = this.connecte ? '0' : '1'
+
+      if (str == '0') { return false } else { return true }
     }
   }
 }
 
 </script>
+
 
 <style>
 #app {

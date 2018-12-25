@@ -20,22 +20,22 @@ export default {
       auteur: '7tt0PkwvO5VC9wdOkaLYYd3vtIs1',
       nom: 'hola',
       description: 'adios',
-      image: 'ahhhh',
+      image: 'https://wakyma.com/blog/wp-content/uploads/2017/10/Tipos-de-diarrea-en-gatos-y-su-tratamiento-770x460.',
       communautes: [],    // Ici on garde le nom de la base de donnees de chaque communaute
       communautes_txt: [], // Puis c'est celui ci celui qu'on montre
-      com_selec: '-LSLz8rGF-jWOBgNokJD'
+      com_selec: '-LSLz8rGF-jWOBgNokJD',
+      titre: ':('
     }
   },
   created() {
     let user = app.auth().currentUser
 
-    if (user == null || !user.emailVerified) { /*router.push('/')*/ } // TODO: Uncomment avant de lancer le site
+    if (user == null || !user.emailVerified) { router.push('/') }
   },
   methods: {
     submit: function() {
-      //let user = app.auth().currentUser
-      //this.auteur = user.uid
-      let uid = this.auteur
+      let user = app.auth().currentUser
+      this.auteur = user.uid
 
       let post = {
         auteur: this.auteur,
@@ -43,7 +43,8 @@ export default {
         description: this.description,
         image: this.image,
         likes: { "id": "id" },
-        date: firebase.database.ServerValue.TIMESTAMP
+        date: firebase.database.ServerValue.TIMESTAMP,
+        titre: this.titre
       }
       post.likes[uid] = uid
 
@@ -56,7 +57,7 @@ export default {
         .then((data) => {
           const obj = data.val()
 
-          obj[key] = key
+          obj['id'] = key
 
           db.ref('posts/' + key).set(obj)
         })

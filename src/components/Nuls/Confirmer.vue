@@ -29,6 +29,7 @@ export default {
         email: email,
         bio: 'Salut, Neko !',
         role: 'user',
+        photoProfil: 'https://pm1.narvii.com/6417/f841c8c25c9939c1c56c41b7faef7c1e0065b1ec_128.jpg',
         communautes: {
 		      "id" : "id",
           "-LSLz8rGF-jWOBgNokJD" : "-LSLz8rGF-jWOBgNokJD",

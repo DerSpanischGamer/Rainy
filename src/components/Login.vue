@@ -55,6 +55,11 @@ export default {
       ]
     }
   },
+  created () {
+    let uti = app.auth().currentUser
+
+    if (uti != null) { router.push('/') }
+  },
   methods: {
     submit: function() {
       app.auth().signInWithEmailAndPassword(this.email, this.passe)

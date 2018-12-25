@@ -49,15 +49,6 @@ export default {
     }
   },
   created () {
-    let user = db.ref('users/' + '6QDhDsOWXHTR2eKrU4qk3tAMqXV2').once('value')
-    .then((data) => {
-      const obj = data.val()
-
-      for (let pro in user) {
-        console.log(obj[pro])
-      }
-    })
-
     //TODO: uncomment pour quand on lance le site
     /*if (user != null) {
       if (user.role != "admin") { router.push('/') }
@@ -65,17 +56,30 @@ export default {
   },
   methods: {
     nouvelleCom: function () {
-        let com_ = db.ref("/communities")
-        let cle = com_.key
+      let com_ = db.ref('communities')
+      let cle = com_.key
 
-        let com = {
-          description: "Des images des filles chat",
-          nom: "Filles chat",
-          posts: { "id": "id" },
-          suit: { "id": "id" }
-        }
+      let com = {
+        description: "Des images des filles chat",
+        nom: "Filles chat",
+        posts: { "id": "id" },
+        suit: { "id": "id" }
+      }
 
-        com_.push(com)
+      com_.push(com)
+      .then((snap) => {
+        const key = snap.key
+        console.log(key)
+
+        db.ref('communities/index').once('value')
+        .then((data) => {
+          const obj = data.val()
+
+          obj[key] = com.nom
+
+          db.ref('communities/index').set()
+        })
+      })
     }
   }
 }
