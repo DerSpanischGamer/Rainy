@@ -25,7 +25,7 @@ export default new Router({
       component: Main
     },
     {
-      path: '/login',
+      path: '/login&:origine',
       name: 'Login',
       component: Login
     },
@@ -40,7 +40,7 @@ export default new Router({
       component: User
     },
     {
-      path: '/communaute&:id',
+      path: '/communaute&:id&:origine',
       name: 'Communaute',
       component: Communaute
     },

@@ -29,9 +29,8 @@ export default {
   name: 'App',
   data() {
     return {
-      hola: 'fsdf',
       connecte: false,
-      utilisateur: '',
+      utilisateur: 'id',
       id : '',
       connecte: ''
     }
@@ -57,8 +56,6 @@ export default {
   },
   updated: function() {
     this.$nextTick(function() {
-      console.log("Rerendered")
-
       let uti = app.auth().currentUser
 
       if (uti != null) {
@@ -86,6 +83,12 @@ export default {
       let str = this.connecte ? '0' : '1'
 
       if (str == '0') { return false } else { return true }
+    },
+    getPath: function() {
+      return this.$route.path
+    },
+    go: function(dir) {
+      router.push(dir)
     }
   }
 }

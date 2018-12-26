@@ -15,7 +15,6 @@
         <p class="text-lg-right">
           <v-navigation-drawer
           class="blue lighten-3"
-          :clipped="clipped"
           >
             <v-list xs2>
               <v-list-tile
@@ -65,7 +64,7 @@ export default {
     }
   },
   created () {
-    this.connecte = ap.getConnecte()
+    this.connecte = ap.methods.getConnecte()
 
     if (this.connecte) { this.utilisateur = ap.data().utilisateur }
 

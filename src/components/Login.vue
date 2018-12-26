@@ -27,18 +27,23 @@
       <h3> Tu n'as pas encore un compte chez nous? <a href='#/registre'> Inscrit-toi ici </a> </h3>
     </v-form>
     <p> {{ errorMsg }} </p>
+    {{ origine }}
   </div>
 </template>
 
 <script>
 import router from '../router'
 import * as firebase from 'firebase'
+import ap from '../App.vue'
 
 export default {
   name: 'Login',
   data () {
     return {
       msg: ':3',
+      // Misc
+      origine: '/',
+      // Page en soi
       errorMsg: '',
       valid: false,
       show: false,
@@ -56,9 +61,9 @@ export default {
     }
   },
   created () {
-    let uti = app.auth().currentUser
-
-    if (uti != null) { router.push('/') }
+    this.origine = '/' + this.$route.params.origine.replace(':', '')
+    console.log(this.origine)
+    if (ap.methods.getConnecte()) { /*router.push(this.orgine)*/ console.log("ARGHHHHHHHHH") }
   },
   methods: {
     submit: function() {
@@ -68,7 +73,8 @@ export default {
 
         if (!uti.emailVerified) {
           alert("S'il vous plaît, confirmez votre inscription pour pouvoir vous connecter")
-          app.auth().signOut().then( function() {
+          app.auth().signOut()
+          .then( function() {
             console.log('Haha !')
             return
           }, function(error) {
@@ -76,9 +82,11 @@ export default {
           })
         } else {
           if (uti.role != 'banned') {
-            router.push('/')
+            console.log(ap.methods.getConnecte()) // probleme pour fixer: this. ne fonctionne pas ici
+            //router.push()
           } else {
-            app.auth().signOut().then( function() {
+            app.auth().signOut()
+            .then(function() {
               alert('NON')
               return
             }, function(error) {

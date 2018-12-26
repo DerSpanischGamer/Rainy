@@ -45,6 +45,7 @@ export default {
   data () {
     return {
       msg: 'Inscrit toi sur notre site :)',
+      // Page en soi
       valid: true,
       error: '',
       show: false,

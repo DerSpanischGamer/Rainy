@@ -1,6 +1,5 @@
 <template>
   <div class="User">
-
     <v-container fluid>
       <v-layout row wrap justify-end row fill-height>
         <v-flex xs8>
@@ -14,7 +13,6 @@
               <h2> {{ longueur(likes[index]) - 1 }} </h2>
             </v-card-actions>
           </v-card>
-
         </v-flex>
         <v-flex xs4> <!-- Nicolyyyy tu dois voir comment faire le truc de l'utilisateur-->
           <v-img
@@ -24,7 +22,7 @@
           ></v-img> <!-- Ca serait cool si tout ca descendait quand tu descends -->
           <h1> {{ utilisateur }} </h1>
           <br>
-          <h3> {{this.bio}} </h3>
+          <h3> {{ bio }} </h3>
           <br>
           <h2> Communautes </h2>
           <h3 v-for="(tit, index) in titres"> <br> <a :href="'/#/communaute&:' + true_coms[index]"> {{ tit }} </a> </h3>
@@ -136,9 +134,6 @@ export default {
       this.likes[index][this.uid] = this.uid // Modifier like et dislike pour voir si la personne est connectee
 
       console.log(this.likes[index])
-    },
-    utilisa: function() {
-        router.push(this.dir)
     }
   }
 }
@@ -146,7 +141,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
+h1, h2, h3 {
   font-weight: normal;
 }
 ul {

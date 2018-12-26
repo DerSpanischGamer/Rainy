@@ -1,3 +1,4 @@
 Choses a ameliorer:
   - Optimisation pour reduire le nombre d'appels a la base de donnes
-    Backend pour faire le site plus sur en efficient
+  - Backend pour faire le site plus sur en efficient
+  - Ne pas charger tous les posts mais seulement les 10 premiers ou qqch comme ca
