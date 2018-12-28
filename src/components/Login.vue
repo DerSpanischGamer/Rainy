@@ -1,33 +1,38 @@
 <template>
   <div class="Login">
-    <v-form ref="form" v-model="valid" lazy-validation>
-      <v-text-field
-        v-model="email"
-        :rules="emailRules"
-        label="E-mail"
-        required
-      ></v-text-field>
-      <v-text-field
-        :append-icon="show ? 'visibility_off' : 'visibility'"
-        :type="show ? 'text' : 'password'"
-        v-model="passe"
-        label="Mot de passe"
-        :rules="rules"
-        required
-        counter
-        @click:append="show = !show"
-      ></v-text-field>
-      <h4> Mot de passe oublié? Pas de souci, clicke <a href="/#/oublie"> ici </a> pour le réseter. </h4>
-      <v-btn
-        :disabled="!valid"
-        @click="submit"
-      >
-      submit
-      </v-btn>
-      <h3> Tu n'as pas encore un compte chez nous? <a href='#/registre'> Inscrit-toi ici </a> </h3>
-    </v-form>
-    <p> {{ errorMsg }} </p>
-    {{ origine }}
+    <v-layout row wrap class="pt-5" justify-center>
+      <v-flex xs12 sm10 md8 lg6>
+        <v-form ref="form" v-model="valid" lazy-validation>
+          <v-text-field
+            v-model="email"
+            :rules="emailRules"
+            label="E-mail"
+            required
+          ></v-text-field>
+          <v-text-field
+            :append-icon="show ? 'visibility_off' : 'visibility'"
+            :type="show ? 'text' : 'password'"
+            v-model="passe"
+            label="Mot de passe"
+            :rules="rules"
+            required
+            counter
+            v-on:keyup.enter="submit"
+            @click:append="show = !show"
+          ></v-text-field>
+          <h4> Mot de passe oublié? Pas de souci, clicke <a href="#/oublie"> ici </a> pour le réseter. </h4>
+          <v-btn
+            :disabled="!valid"
+            @click="submit"
+          >
+          submit
+          </v-btn>
+          <h3> Tu n'as pas encore un compte chez nous? <a href='#/registre'> Inscrit-toi ici </a> </h3>
+        </v-form>
+        <p> {{ errorMsg }} </p>
+        {{ origine }}
+      </v-flex>
+    </v-layout>
   </div>
 </template>
 
@@ -62,8 +67,11 @@ export default {
   },
   created () {
     this.origine = '/' + this.$route.params.origine.replace(':', '')
-    console.log(this.origine)
-    if (ap.methods.getConnecte()) { /*router.push(this.orgine)*/ console.log("ARGHHHHHHHHH") }
+    this.origine = this.origine.indexOf( ':' ) == 1 ? this.origine = this.origine.replace( ':', '' ) : this.origine;
+
+    ap.data().temp = this.origine
+
+    //if (app.auth().currentUser != null) { router.push(this.origine) }
   },
   methods: {
     submit: function() {
@@ -82,8 +90,7 @@ export default {
           })
         } else {
           if (uti.role != 'banned') {
-            console.log(ap.methods.getConnecte()) // probleme pour fixer: this. ne fonctionne pas ici
-            //router.push()
+            router.push(ap.methods.getTemp())
           } else {
             app.auth().signOut()
             .then(function() {

@@ -14,7 +14,7 @@
             </v-card-actions>
           </v-card>
         </v-flex>
-        <v-flex xs4> <!-- Nicolyyyy tu dois voir comment faire le truc de l'utilisateur-->
+        <v-flex xs4> <!-- Nicolyyyy tu dois voir comment faire le truc de l'utilisateur :3 merwi-->
           <v-img
           :src="photo"
           height="100"
@@ -42,10 +42,10 @@ export default {
     return {
         msg: 'Page profile de qqn :)',
         // Variables profil
-        utilisateur: '',
-        photo: '',
-        id: '',
-        bio: '',
+        utilisateur: '', // nom de l'utilisateur
+        photo: '', // url de la photo du profil de l'utilisateur
+        id: '', // id de l'utilisateur
+        bio: '', // biographie de l'utilisateur
         // Variables pour les posts
         posts: {}, // un object d'objects
         true_posts: [], // celui ci c'est une liste des cles

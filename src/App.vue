@@ -14,7 +14,7 @@
 
         <v-toolbar-items class="hidden-sm-and-down">
         <v-btn flat to="/"> Home </v-btn>
-        <v-btn v-if="!connecte" flat to="/login"> Login </v-btn>
+        <v-btn v-if="!connecte && !this.cestLogin(this.getPath())" flat :to="'/login&:' + this.getPath()"> Login </v-btn>
         <v-btn v-if="connecte" flat @click="utilisa"> {{ utilisateur }} </v-btn>
       </v-toolbar-items>
     </v-toolbar>
@@ -32,7 +32,7 @@ export default {
       connecte: false,
       utilisateur: 'id',
       id : '',
-      connecte: ''
+      temp: '' // Info temporaire pour eles pages qui ne peuvent pas acceder a leur this. comme ex. login
     }
   },
   created () {
@@ -71,6 +71,7 @@ export default {
         })
       }
       else {
+        this.connecte = false
         console.log("Pas connecte")
       }
     })
@@ -79,16 +80,14 @@ export default {
     utilisa: function() {
       router.push(this.uid)
     },
-    getConnecte: function() {
-      let str = this.connecte ? '0' : '1'
-
-      if (str == '0') { return false } else { return true }
-    },
     getPath: function() {
-      return this.$route.path
+      return this.$route.path.replace('/', '')
     },
-    go: function(dir) {
-      router.push(dir)
+    getConnecte: function() {
+      return true
+    },
+    cestLogin: function(dir) {
+      if (dir.slice(0, 5) == 'login') { return true } else { return false }
     }
   }
 }
