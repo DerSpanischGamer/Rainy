@@ -14,19 +14,27 @@
             </v-card-actions>
           </v-card>
         </v-flex>
-        <v-flex xs4> <!-- Nicolyyyy tu dois voir comment faire le truc de l'utilisateur :3 merwi-->
-          <v-img
+        <v-flex xs3 order-lg2>
+          <p class="text-lg-center">
+            <v-navigation-drawer
+            class="blue lighten-3"
+            >
+          <v-img class="text-lg-center"
           :src="photo"
           height="100"
           width="100"
-          ></v-img> <!-- Ca serait cool si tout ca descendait quand tu descends -->
+          ></v-img>
           <h1> {{ utilisateur }} </h1>
           <br>
           <h3> {{ bio }} </h3>
           <br>
           <h2> Communautes </h2>
           <h3 v-for="(tit, index) in titres"> <br> <a :href="'/#/communaute&:' + true_coms[index]"> {{ tit }} </a> </h3>
+        </v-navigation-drawer>
+      </p>
+
         </v-flex>
+
       </v-layout>
     </v-container>
   </div>
@@ -55,7 +63,7 @@ export default {
         coms: {}, // un object d'objects avec les communautes
         index: {}, // un index id com -> nom a montrer
         true_coms: [], // les ids des coms
-        titres: [] // les noms des coms, meme ordre que true_coms
+        titres: [], // les noms des coms, meme ordre que true_coms,
     }
   },
   created() {
