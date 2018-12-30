@@ -50,9 +50,9 @@ export default {
       msg: 'Rainy Main page',
       connecte: false,
       items: [
-           { title: 'Dashboard', icon: 'dashboard' },
-           { title: 'Account', icon: 'account_box' },
-           { title: 'Admin', icon: 'gavel' }
+           { title: 'Chat' },
+           { title: 'Chien' },
+           { title: 'hamster' }
          ],
       posts: [
          { image: 'https://i.kinja-img.com/gawker-media/image/upload/s--4LHBt0O4--/c_scale,f_auto,fl_progressive,q_80,w_800/kaprfadz9rnvypesa2u9.png', id: '0' },
