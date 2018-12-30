@@ -40,7 +40,7 @@ export default new Router({
       component: User
     },
     {
-      path: '/communaute&:id&:origine',
+      path: '/communaute&:id',
       name: 'Communaute',
       component: Communaute
     },

@@ -1,15 +1,16 @@
 <template>
-  <div class="User">
+  <div class="User" id="User">
+    <v-app>
     <v-container fluid>
       <v-layout row wrap justify-end row fill-height>
         <v-flex xs8>
           <v-card v-for="(post, index) in final_posts" :key="post.id">
             <v-card-title> <h3 class="headline mb-0"> {{ post.titre }} </h3> </v-card-title>
-            <v-card-media :src="post.image"></v-card-media>
+            <v-img :src="post.image"></v-img>
             <v-card-title> <h2> {{ post.description }} </h2> </v-card-title>
             <v-card-actions>
-              <v-btn flat v-if="id in post.likes" color="red" @click="dislike(index)"> Dislike </v-btn> <!-- Ici il faut faire dynamique le changement entre boutton like et dislike et aussi le compteur -->
-              <v-btn flat v-else @click="like(index)"color="green"> Like </v-btn> <!-- https://stackoverflow.com/questions/46567323/vue-js-change-text-within-a-button-after-an-event -->
+              <v-btn flat v-if="temp[index]" v-on:click="dislike(index)" color="red"> Dislike </v-btn>
+              <v-btn flat v-else v-on:click="like(index)" color="green"> Like </v-btn>
               <h2> {{ longueur(likes[index]) - 1 }} </h2>
             </v-card-actions>
           </v-card>
@@ -19,7 +20,7 @@
           :src="photo"
           height="100"
           width="100"
-          ></v-img> <!-- Ca serait cool si tout ca descendait quand tu descends -->
+          ></v-img>
           <h1> {{ utilisateur }} </h1>
           <br>
           <h3> {{ bio }} </h3>
@@ -29,18 +30,23 @@
         </v-flex>
       </v-layout>
     </v-container>
+  </v-app>
   </div>
 </template>
 
 <script>
 import router from '../router'
 import ap from '../App.vue'
+import Vue from 'vue'
 
 export default {
   name: 'User',
   data () {
     return {
         msg: 'Page profile de qqn :)',
+        // Variables celui qui cherche TODO: enlever l'uti avant lancer le site
+        uti: '7tt0PkwvO5VC9wdOkaLYYd3vtIs1', // uid de l'utilisateur qui est en train d'utiliser le site
+        connecte: false,
         // Variables profil
         utilisateur: '', // nom de l'utilisateur
         photo: '', // url de la photo du profil de l'utilisateur
@@ -50,7 +56,9 @@ export default {
         posts: {}, // un object d'objects
         true_posts: [], // celui ci c'est une liste des cles
         final_posts: [], // celui ci c'est une liste des posts (objects) qui ont ete deja ordonne (nouveaux premiers)
-        likes: [],
+        // Variables pour les likes
+        likes: [], // Liste des objects trouves dans les posts. Ex.: { 'id': 'id' }
+        true_likes: [], // Liste de booleans qui disent si l'uti a like ou pas un post
         // Variables pour le communautes
         coms: {}, // un object d'objects avec les communautes
         index: {}, // un index id com -> nom a montrer
@@ -59,6 +67,9 @@ export default {
     }
   },
   created() {
+    let user = app.auth().currentUser
+    if (user != null) { this.uti = user.uid; this.connecte = true }
+
     // Gerer les posts de l'utilisateur
     this.id = this.$route.params.id.replace(':', '')
 
@@ -126,14 +137,37 @@ export default {
       }
     },
     dislike: function(index) { // etant l'argument l'index, du coup la position
-      delete this.likes[index][this.uid]
+      // faut voir si l'utilisateur est connecte ou pas
+      if (!this.connecte) { router.push('login&:' + ap.getPath()); return }
+      //On arrive ici si l'utilisateur est connecte
+      let obj = {}
+      obj[this.uti] = this.uti
 
+      console.log(this.compteur(this.likes[index])) // mirar por que demonios no funciona esta parte
+      console.log(this.likes[index][this.uti])
+      delete this.likes[index][this.uti]
+      vm.$set(this.temp, index, false)
+
+      console.log('Dislike')
       console.log(this.likes[index])
     },
-    like: function(index) {
-      this.likes[index][this.uid] = this.uid // Modifier like et dislike pour voir si la personne est connectee
+    like: function(index) { // etant l'argument l'index, du coup la position
+      if (!this.connecte) { router.push('login&:' + ap.getPath()); return }
 
+      this.likes[index][this.uti] = this.uti
+      vm.$set(this.temp, index, true)
+
+      console.log('Like')
       console.log(this.likes[index])
+    },
+    compteur: function(obj) {
+      let c = 0
+
+      for (let prop in obj) {
+        if (obj.hasOwnProperty(prop)) { c++ }
+      }
+
+      return c
     }
   }
 }

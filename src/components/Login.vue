@@ -90,7 +90,7 @@ export default {
           })
         } else {
           if (uti.role != 'banned') {
-            router.push(ap.methods.getTemp())
+            router.push(ap.data().temp)
           } else {
             app.auth().signOut()
             .then(function() {

@@ -3,13 +3,15 @@
     <v-text-field
     v-model="uid_post"
     label="uid post"
-    required> </v-text-field>
+    required
+    v-on:keyup.enter="post"
+    > </v-text-field>
     <v-btn @click="post"> Effacer post </v-btn>
     <v-text-field
     v-model="uid_user"
     label="uid user"
     required> </v-text-field>
-    <v-btn @click="post"> Effacer user </v-btn>
+    <v-btn @click="users"> Effacer user </v-btn>
   </div>
 </template>
 
@@ -38,14 +40,13 @@ export default {
       this.eliminarPost(this.uid_post)
     },
     users: function() {
-      db.ref('users/' + this.user_post).once('value')
+      db.ref('users/' + this.uid_user).once('value')
       .then((data) => {
         const obj = data.val()
-        console.log(obj)
 
         let posts = obj.posts
         for (let post in posts) {
-          if (posts[post] != 'id') { eliminarPost(posts[post]) } // Problema causado por el id
+          if (posts[post] != 'id') { eliminarPost(posts[post]) }
         }
 
         let communautes = obj.communautes
@@ -58,24 +59,22 @@ export default {
           db.ref('posts/' + likes[like] + '/likes').child(this.uid_user).remove()
         }
 
-        users.child(this.uid_user).remove()
-
-        let dele = admin.auth().getUser(this.uid_user)
-        dele.delete()
+        db.ref('users/' + this.uid_user).set({
+          role: 'banned'
+        })
       })
     },
-    eliminarPost: function(uid) { // uid ici c'est l'uid de l'utilisateur
+    eliminarPost: function(uid) { // uid ici c'est l'uid du post
       db.ref('posts/' + uid).once('value')
       .then((data) => {
         const obj = data.val()
-        console.log(obj)
 
         let auteur = obj.auteur
         db.ref('users/' + auteur + '/posts').child(uid).remove()
 
         let likes = obj.likes
         for (let like in likes) {
-          console.log(like)
+
           db.ref('users/' + likes[like] + '/likes').child(uid).remove()
         }
 
@@ -83,6 +82,8 @@ export default {
         db.ref('communities/' + com + '/posts').child(uid).remove()
 
         posts.child(uid).remove()
+
+        console.log('Post efface')
       })
     }
   }
