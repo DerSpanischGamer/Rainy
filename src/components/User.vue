@@ -5,6 +5,7 @@
       <v-layout row wrap justify-end row fill-height>
         <v-flex xs8>
           <v-card v-for="(post, index) in final_posts" :key="post.id">
+            <v-card-title> <h2> <a :href='"#/communaute&:" + post.communaute'> {{ indexo[post.communaute] }} </a> </h2> </v-card-title>
             <v-card-title> <h3 class="headline mb-0"> {{ post.titre }} </h3> </v-card-title>
             <v-img :src="post.image"></v-img>
             <v-card-title> <h2> {{ post.description }} </h2> </v-card-title>
@@ -35,7 +36,6 @@
       </p>
 
         </v-flex>
-
       </v-layout>
     </v-container>
   </v-app>
@@ -69,12 +69,13 @@ export default {
         true_likes: [], // Liste de booleans qui disent si l'uti a like ou pas un post
         // Variables pour le communautes
         coms: {}, // un object d'objects avec les communautes
-        index: {}, // un index id com -> nom a montrer
+        indexo: {}, // un index id com -> nom a montrer
         true_coms: [], // les ids des coms
         titres: [], // les noms des coms, meme ordre que true_coms,
     }
   },
   created() {
+    // Gerer l'utilisateur qui est sur le site
     let user = app.auth().currentUser
     if (user != null) { this.uti = user.uid; this.connecte = true }
 
@@ -96,11 +97,11 @@ export default {
       .then((data) => {
         const obj = data.val()
 
-        this.index = obj.index
+        this.indexo = obj.index
 
         for (let com in this.coms) {
           this.true_coms.push(com)
-          this.titres.push(this.index[com])
+          this.titres.push(this.indexo[com])
         }
       })
 
@@ -163,8 +164,6 @@ export default {
 
         db.ref('users/' + this.uti + '/likes').set(obj)
       })
-
-      console.log('Dislike')
     },
     like: function(index) { // etant l'argument l'index, du coup la position
       if (!this.connecte) { router.push('login&:' + this.$route.path.replace('/', '')); return }
@@ -182,8 +181,6 @@ export default {
 
         db.ref('users/' + this.uti + '/likes').set(obj)
       })
-
-      console.log('Like')
     }
   }
 }

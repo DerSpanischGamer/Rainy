@@ -5,11 +5,11 @@
         <v-flex xs8>
           <v-card v-for="(post, index) in final_posts" :key="post.id">
             <v-card-title> <h3 class="headline mb-0"> {{ post.titre }} </h3> </v-card-title>
-            <v-card-media :src="post.image"></v-card-media>
+            <v-img :src="post.image"></v-img>
             <v-card-title> <h2> {{ post.description }} </h2> </v-card-title>
             <v-card-actions>
-              <v-btn flat v-if="id in post.likes" color="red" @click="dislike(index)"> Dislike </v-btn> <!-- Ici il faut faire dynamique le changement entre boutton like et dislike et aussi le compteur -->
-              <v-btn flat v-else @click="like(index)"color="green"> Like </v-btn> <!-- https://stackoverflow.com/questions/46567323/vue-js-change-text-within-a-button-after-an-event -->
+              <v-btn flat v-if="true_likes[index]" color="red" @click="dislike(index)"> Dislike </v-btn>
+              <v-btn flat v-else @click="like(index)"color="green"> Like </v-btn>
               <h2> {{ longueur(likes[index]) - 1 }} </h2>
             </v-card-actions>
           </v-card>
@@ -19,9 +19,11 @@
           <br>
           <h3> {{ description }} </h3>
           <br>
-          <h3> {{ longueur(this.final_suivant) }} abonnés à cette page </h3>
-          <v-btn flat v-if="utilisateur in final_suivant" @click="arreter"> Arreter de suivre </v-btn>
+          <h3> {{ longueur(this.suivant) }} abonnés à cette communauté </h3>
+          <v-btn flat v-if="suive[0]" @click="arreter"> Arreter de suivre </v-btn>
           <v-btn flat v-else @click="suivre"> Suivre </v-btn>
+          <br>
+          <v-btn flat :to="'post&:' + this.id"> Faire un post dans cette communaute </v-btn>
         </v-flex>
       </v-layout>
     </v-container>
@@ -30,6 +32,7 @@
 
 <script>
 import ap from '../App.vue'
+import router from '../router'
 
 export default {
   name: 'Communaute',
@@ -38,26 +41,27 @@ export default {
       msg: 'Bienvenu a cette communaute',
       // Utilisateur
       connecte: false,
-      utilisateur: 'id', // id de l'utilisateur
+      utilisateur: '', // id de l'utilisateur !! IMPORTANT, METTRE A '' COMME PREDETERMINE CAR SINON VA TOUJOURS RETOURNER VRAI
       // Infos nulles com
       id: '', // id de la com
-      nom: '',
-      description: '',
+      nom: '', // nom de la com
+      description: '', // description de la com
       // Variables pour ceux qui suivent
-      suivant: {},
-      final_suivant: [],
+      suivant: {}, // object avec les ids des gens qui suivent a la com
+      suive: [ false ], // on utilise seulement la position 0 qui dit false si l'utilisateur est connecte
       // Varibles posts com
-      posts: {},
-      true_posts: [],
-      final_posts: [],
+      posts: {},  // un object d'objects
+      true_posts: [],  // celui ci c'est une liste des cles
+      final_posts: [],  // celui ci c'est une liste des posts (objects) qui ont ete deja ordonne (nouveaux premiers)
       // Likes des posts, meme ordre final_posts
-      likes: []
+      likes: [], // liste d'objects qui gardent tous ces qui ont like une image
+      true_likes: [] // vrai si l'utilisateur a like, faut sinon
     }
   },
   created() {
-    // Gerer l'utilisateur
-    this.connecte = ap.methods.getConnecte()
-    this.utilisateur = ap.data().utilisateur
+    // Gerer l'utilisateur qui est sur le site
+    let user = app.auth().currentUser
+    if (user != null) { this.utilisateur = user.uid; this.connecte = true }
 
     // Gerer les posts de la com et les infos
     this.id = this.$route.params.id.replace(':', '')
@@ -65,7 +69,6 @@ export default {
     db.ref('communities/' + this.id).once('value')
     .then((data) => {
       const obj = data.val()
-      console.log(obj)
 
       this.nom = obj.nom
       this.description = obj.description
@@ -74,10 +77,7 @@ export default {
       this.suivant = obj.suit
       delete this.suivant['id']
 
-      for (let utili in this.suivant) {
-        this.final_suivant.push(utili)
-      }
-
+      if (this.suivant.hasOwnProperty(this.utilisateur)) { this.suive[0] = true }
       // Gerer les posts
       this.posts = obj.posts
       delete this.posts['id']
@@ -111,14 +111,36 @@ export default {
       return l
     },
     dislike: function(index) { // etant l'argument l'index, du coup la position
-      delete this.likes[index][this.uid]
+      if (!this.connecte) { router.push('login&:' + this.$route.path.replace('/', '')); return }
 
-      console.log(this.likes[index])
+      delete this.likes[index][this.utilisateur]
+      vm.$set(this.true_likes, index, false)
+
+      db.ref('posts/' + this.final_posts[index].id + '/likes').set(this.likes[index])
+      db.ref('users/' + this.utilisateur + '/likes').once('value')
+      .then((data) => {
+        const obj = data.val()
+
+        delete obj[this.final_posts[index].id]
+
+        db.ref('users/' + this.utilisateur + '/likes').set(obj)
+      })
     },
     like: function(index) {
-      this.likes[index][this.uid] = this.uid // Modifier like et dislike pour voir si la personne est connectee
+      if (!this.connecte) { router.push('login&:' + this.$route.path.replace('/', '')); return }
 
-      console.log(this.likes[index])
+      this.likes[index][this.utilisateur] = this.utilisateur
+      vm.$set(this.true_likes, index, true)
+
+      db.ref('posts/' + this.final_posts[index].id + '/likes').set(this.likes[index])
+      db.ref('users/' + this.utilisateur + '/likes').once('value')
+      .then((data) => {
+        const obj = data.val()
+
+        obj[this.final_posts[index].id] = this.final_posts[index].id
+
+        db.ref('users/' + this.utilisateur + '/likes').set(obj)
+      })
     },
     fini: function() {
       this.final_posts.sort(function(a, b) {
@@ -127,17 +149,41 @@ export default {
 
       for (let post in this.final_posts) {
         this.likes.push(this.final_posts[post].likes)
+
+        if (this.final_posts[post].likes.hasOwnProperty(this.utilisateur)) { this.true_likes.push(true) } else { this.true_likes.push(false) }
       }
     },
     arreter: function() {
-      this.final_suivant.splice(this.final_suivant.indexOf(this.utilisateur), 1)
+      if (!this.connecte) { router.push('login&:' + this.$route.path.replace('/', '')); return }
+
+      delete this.suivant[this.utilisateur]
+      vm.$set(this.suive, 0, false)
+
+      db.ref('communities/' + this.id + '/suit').set(this.suivant)
+      db.ref('users/' + this.utilisateur + '/communautes').once('value')
+      .then((data) => {
+        const obj = data.val()
+
+        delete obj[this.id]
+
+        db.ref('users/' + this.utilisateur + '/communautes').set(obj)
+      })
     },
     suivre: function() {
+      if (!this.connecte) { router.push('login&:' + this.$route.path.replace('/', '')); return }
 
-      console.log(ap.methods.getPath())
-      if (!ap.methods.getConnecte()) { router.push('/login&:' + ap.methods.getPath()) }
+      this.suivant[this.utilisateur] = this.utilisateur
+      vm.$set(this.suive, 0, true)
 
-      this.final_suivant.push(this.utilisateur)
+      db.ref('communities/' + this.id + '/suit').set(this.suivant)
+      db.ref('users/' + this.utilisateur + '/communautes').once('value')
+      .then((data) => {
+        const obj = data.val()
+
+        obj[this.id] = this.id
+
+        db.ref('users/' + this.utilisateur + '/communautes').set(obj)
+      })
     }
   }
 }

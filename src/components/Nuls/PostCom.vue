@@ -23,7 +23,8 @@
             <v-select
             :items="communautes_txt"
             v-model="com_selec"
-            label="Communautes"
+            disabled
+            :label="com_selec"
             ></v-select>
             <v-btn
             :disabled="!valid"
@@ -44,43 +45,39 @@ export default {
   data () {
     return {
       msg: ':)',
+      // Misc
+      id: '', // dans ce cas, id garde l'id de la com a laquelle le post va etre mis
       // Regles et trucs pour form
       valid: false,
       // Reste d'infos pour le post
-      titre: '',
+      titre: '',  // titre du post
       auteur: '', // id auteur
       description: '', // description du post
-      image: '',
-      // Pour les v-select
+      image: '',  // image du post
+      // Pour les v-select (dans ce cas inutil)
       communautes: [],    // Ici on garde le nom de la base de donnees de chaque communaute
       communautes_txt: [], // Puis c'est celui ci celui qu'on montre
       com_selec: '', // communaute selectionne
-      index: {},
-      indexe: {}
     }
   },
   created() {
     let user = app.auth().currentUser
-    if (user == null || !user.emailVerified) { router.push('/') }
+    this.id = this.$route.params.id.replace(':', '')
+
+    //if (user == null || !user.emailVerified || this.id = '') { router.push('/') }
     this.auteur = user.uid
 
     db.ref('users/' + this.auteur).once('value')
     .then((data) => {
       const obj = data.val()
 
-      this.communautes = obj.communautes
-
-      db.ref('communities/').once('value')
+      db.ref('communities/' + this.id).once('value')
       .then((data) => {
-        const obj = data.val()
-
-        this.index = obj.index
-
-        for (let com in this.index) {
-          if (com in this.communautes) { this.communautes_txt.push(this.index[com]) }
-        }
-
-        this.invers()
+        this.com_selec = data.val().nom
+      })
+      .catch(function(error) {
+        alert("Erreur: la communaute n'a pas pu être retrouvée")
+        router.push('/')
       })
     })
   },
@@ -90,7 +87,7 @@ export default {
 
       let post = {
         auteur: this.auteur,
-        communaute: this.indexe[this.com_selec],
+        communaute: this.id,
         description: this.description,
         image: this.image,
         likes: { "id": "id" },
@@ -113,15 +110,15 @@ export default {
         })
 
         // Cette partie ajoute le post a la communaute
-        console.log('Indexe' + this.indexe[this.com_selec])
-        db.ref('communities/' + this.indexe[this.com_selec]).once('value')
+
+        db.ref('communities/' + this.id).once('value')
         .then((data) => {
           const obj = data.val()
 
           let liste = obj.posts
           liste[key] = key
 
-          db.ref('communities/' + this.indexe[this.com_selec] + '/posts').set(liste)
+          db.ref('communities/' + this.id + '/posts').set(liste)
 
           // Puis cette partie l'ajoute au profil de l'utilisateur
           db.ref('users/' + this.auteur).once('value')
@@ -137,15 +134,10 @@ export default {
             db.ref('users/' + this.auteur + '/posts').set(listo)
             db.ref('users/' + this.auteur + '/likes').set(likes)
 
-            router.push('/user&:' + this.auteur)
+            router.push('/communaute&:' + this.id)
           })
         })
       })
-    },
-    invers: function() {
-      for (let com in this.index) {
-        this.indexe[this.index[com]] = com
-      }
     }
   }
 }

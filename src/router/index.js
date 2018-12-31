@@ -12,8 +12,10 @@ import Confirmer from '@/components/Nuls/Confirmer'
 import Oublie from '@/components/Nuls/Oublie'
 import Fini from '@/components/Nuls/Fini'
 import Error from '@/components/Nuls/404'
-import Post from '@/components/Nuls/Post'
 import Admin from '@/components/Nuls/Admin'
+
+import Post from '@/components/Nuls/Post'
+import PostC from '@/components/Nuls/PostCom'
 
 Vue.use(Router)
 
@@ -68,6 +70,11 @@ export default new Router({
       path: '/post',
       name: 'Post',
       component: Post
+    },
+    {
+      path: '/post&:id',
+      name: 'PostC',
+      component: PostC
     },
     {
       path: '/admin',

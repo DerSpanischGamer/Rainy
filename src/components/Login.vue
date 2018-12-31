@@ -30,7 +30,6 @@
           <h3> Tu n'as pas encore un compte chez nous? <a href='#/registre'> Inscrit-toi ici </a> </h3>
         </v-form>
         <p> {{ errorMsg }} </p>
-        {{ origine }}
       </v-flex>
     </v-layout>
   </div>
@@ -69,9 +68,9 @@ export default {
     this.origine = '/' + this.$route.params.origine.replace(':', '')
     this.origine = this.origine.indexOf( ':' ) == 1 ? this.origine = this.origine.replace( ':', '' ) : this.origine;
 
-    ap.data().temp = this.origine
+    if (app.auth().currentUser != null) { router.push(this.origine) }
 
-    //if (app.auth().currentUser != null) { router.push(this.origine) }
+    ap.data().temp = this.origine
   },
   methods: {
     submit: function() {

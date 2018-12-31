@@ -65,8 +65,6 @@ export default {
   },
   created () {
     this.connecte = ap.data().connecte
-    console.log(this.connecte)
-    console.log(ap.data().connecte)
 
     if (this.connecte) { this.utilisateur = ap.data().utilisateur }
 

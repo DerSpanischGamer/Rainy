@@ -1,38 +1,42 @@
 <template>
   <div class="Registre">
-    <v-form ref="form" v-model="valid" lazy-validation>
-    <v-text-field
-      v-model="email"
-      :rules="emailRules"
-      label="E-mail"
-      required
-    ></v-text-field>
-    <v-text-field
-      v-model="utilisateur"
-      label="Nom d'utilisateur"
-      :rules="regles"
-      required
-    ></v-text-field>
-    <v-text-field
-      :append-icon="show ? 'visibility_off' : 'visibility'"
-      :type="show ? 'text' : 'password'"
-      v-model="passe"
-      label="Mot de passe"
-      :rules="rules"
-      required
-      counter
-      @click:append="show = !show"
-    ></v-text-field>
-    <v-btn
-      :disabled="!valid"
-      @click="submit"
-    >
-      submit
-    </v-btn>
-    <p> {{ this.error }} </p>
-    <br>
-    <h3> Tu as déjà un compte chez nous? <a href='#/login'> Connecte-toi ici </a> </h3>
-  </v-form>
+    <v-layout row wrap class="pt-5" justify-center>
+      <v-flex xs12 sm10 md8 lg6>
+        <v-form ref="form" v-model="valid" lazy-validation>
+        <v-text-field
+          v-model="email"
+          :rules="emailRules"
+          label="E-mail"
+          required
+        ></v-text-field>
+        <v-text-field
+          v-model="utilisateur"
+          label="Nom d'utilisateur"
+          :rules="regles"
+          required
+        ></v-text-field>
+        <v-text-field
+          :append-icon="show ? 'visibility_off' : 'visibility'"
+          :type="show ? 'text' : 'password'"
+          v-model="passe"
+          label="Mot de passe"
+          :rules="rules"
+          required
+          counter
+          @click:append="show = !show"
+        ></v-text-field>
+        <v-btn
+          :disabled="!valid"
+          @click="submit"
+        >
+          submit
+        </v-btn>
+        <p> {{ this.error }} </p>
+        <br>
+        <h3> Tu as déjà un compte chez nous? <a href='#/login'> Connecte-toi ici </a> </h3>
+      </v-form>
+      </v-flex>
+    </v-layout>
   </div>
 </template>
 
@@ -67,6 +71,9 @@ export default {
         v => v.length <= 16 || 'Max 16 caractères'
       ]
     }
+  },
+  created() {
+    if (app.auth().currentUser != null) { router.push('/') }
   },
   methods: {
     submit: function() {
