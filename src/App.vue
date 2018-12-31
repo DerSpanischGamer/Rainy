@@ -35,7 +35,7 @@
           v-if="connecte" flat @click="utilisa"> {{ utilisateur }} </v-btn>
          <v-btn
        slot="activator" >
-         </v-btn>-->
+     </v-btn>-->
        <v-list>
 
          <v-list-tile
@@ -66,8 +66,8 @@ export default {
     },
     ({
       items: [
-        { title: 'Logout' },
-        { title: 'Profil'},
+        { title: 'Profil' },
+        { title: 'Deconnecter'},
       ]
     })
   },
