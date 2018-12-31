@@ -13,7 +13,10 @@
         </v-btn>
 
         <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn flat to="/"> Home </v-btn>
+        <v-btn icon flat to="/">
+          <v-icon>home </v-icon>
+        </v-btn>
+
 
         <v-btn v-if="!connecte && !this.cestLogin(this.getPath())" flat :to="'/login&:' + this.getPath()"> Login </v-btn>
         <v-menu
@@ -30,12 +33,6 @@
         </v-img>
       </v-avatar>
     </v-btn>
-      <!--<v-menu offset-y>
-          <v-btn
-          v-if="connecte" flat @click="utilisa"> {{ utilisateur }} </v-btn>
-         <v-btn
-       slot="activator" >
-         </v-btn>-->
        <v-list>
 
          <v-list-tile
