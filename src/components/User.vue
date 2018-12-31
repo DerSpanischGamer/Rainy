@@ -9,7 +9,7 @@
             <v-img :src="post.image"></v-img>
             <v-card-title> <h2> {{ post.description }} </h2> </v-card-title>
             <v-card-actions>
-              <v-btn flat v-if="temp[index]" v-on:click="dislike(index)" color="red"> Dislike </v-btn>
+              <v-btn flat v-if="true_likes[index]" v-on:click="dislike(index)" color="red"> Dislike </v-btn>
               <v-btn flat v-else v-on:click="like(index)" color="green"> Like </v-btn>
               <h2> {{ longueur(likes[index]) - 1 }} </h2>
             </v-card-actions>
@@ -52,8 +52,8 @@ export default {
   data () {
     return {
         msg: 'Page profile de qqn :)',
-        // Variables celui qui cherche TODO: enlever l'uti avant lancer le site
-        uti: '7tt0PkwvO5VC9wdOkaLYYd3vtIs1', // uid de l'utilisateur qui est en train d'utiliser le site
+        // Variables celui qui cherche
+        uti: '', // uid de l'utilisateur qui est en train d'utiliser le site
         connecte: false,
         // Variables profil
         utilisateur: '', // nom de l'utilisateur
@@ -142,40 +142,48 @@ export default {
 
       for (let post in this.final_posts) {
         this.likes.push(this.final_posts[post].likes)
+
+        if (this.final_posts[post].likes.hasOwnProperty(this.uti)) { this.true_likes.push(true) } else { this.true_likes.push(false) }
       }
     },
     dislike: function(index) { // etant l'argument l'index, du coup la position
       // faut voir si l'utilisateur est connecte ou pas
-      if (!this.connecte) { router.push('login&:' + ap.getPath()); return }
+      if (!this.connecte) { router.push('login&:' + this.$route.path.replace('/', '')); return }
       //On arrive ici si l'utilisateur est connecte
-      let obj = {}
-      obj[this.uti] = this.uti
 
-      console.log(this.compteur(this.likes[index])) // mirar por que demonios no funciona esta parte
-      console.log(this.likes[index][this.uti])
       delete this.likes[index][this.uti]
-      vm.$set(this.temp, index, false)
+      vm.$set(this.true_likes, index, false)
+
+      db.ref('posts/' + this.final_posts[index].id + '/likes').set(this.likes[index])
+      db.ref('users/' + this.uti + '/likes').once('value')
+      .then((data) => {
+        const obj = data.val()
+
+        delete obj[this.final_posts[index].id]
+
+        db.ref('users/' + this.uti + '/likes').set(obj)
+      })
 
       console.log('Dislike')
-      console.log(this.likes[index])
     },
     like: function(index) { // etant l'argument l'index, du coup la position
-      if (!this.connecte) { router.push('login&:' + ap.getPath()); return }
+      if (!this.connecte) { router.push('login&:' + this.$route.path.replace('/', '')); return }
+      // egale, on arrive ici s'il y a un utilisateur
 
       this.likes[index][this.uti] = this.uti
-      vm.$set(this.temp, index, true)
+      vm.$set(this.true_likes, index, true)
+
+      db.ref('posts/' + this.final_posts[index].id + '/likes').set(this.likes[index])
+      db.ref('users/' + this.uti + '/likes').once('value')
+      .then((data) => {
+        const obj = data.val()
+
+        obj[this.final_posts[index].id] = this.final_posts[index].id
+
+        db.ref('users/' + this.uti + '/likes').set(obj)
+      })
 
       console.log('Like')
-      console.log(this.likes[index])
-    },
-    compteur: function(obj) {
-      let c = 0
-
-      for (let prop in obj) {
-        if (obj.hasOwnProperty(prop)) { c++ }
-      }
-
-      return c
     }
   }
 }
