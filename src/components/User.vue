@@ -81,7 +81,7 @@ export default {
 
     // Gerer les posts de l'utilisateur
     this.id = this.$route.params.id.replace(':', '')
-
+    
     db.ref('users/' + this.id).once('value')
     .then((data) => {
       const obj = data.val()
@@ -125,6 +125,7 @@ export default {
       }
     })
     .catch(function(error) {
+      router.push('/')
       console.log(error)
     })
   },
