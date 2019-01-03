@@ -42,8 +42,7 @@
           <h2> Communautes </h2>
           <h3 v-for="(tit, index) in titres"> <br> <a :href="'/#/communaute&:' + true_coms[index]"> {{ tit }} </a> </h3>
         </v-navigation-drawer>
-      </p>
-
+        </p>
         </v-flex>
       </v-layout>
     </v-container>
@@ -135,6 +134,7 @@ export default {
       }
     })
     .catch(function(error) {
+      router.push('/')
       console.log(error)
     })
   },

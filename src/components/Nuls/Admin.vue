@@ -1,17 +1,21 @@
 <template>
   <div class="Admin">
-    <v-text-field
-    v-model="uid_post"
-    label="uid post"
-    required
-    v-on:keyup.enter="post"
-    > </v-text-field>
-    <v-btn @click="post"> Effacer post </v-btn>
-    <v-text-field
-    v-model="uid_user"
-    label="uid user"
-    required> </v-text-field>
-    <v-btn @click="users"> Effacer user </v-btn>
+    <v-layout row wrap class="pt-5" justify-center>
+      <v-flex xs12 sm10 md8 lg6>
+        <v-text-field
+        v-model="uid_post"
+        label="uid post"
+        required
+        v-on:keyup.enter="post"
+        > </v-text-field>
+        <v-btn @click="post"> Effacer post </v-btn>
+        <v-text-field
+        v-model="uid_user"
+        label="uid user"
+        required> </v-text-field>
+        <v-btn @click="users"> Effacer user </v-btn>
+      </v-flex>
+    </v-layout>
   </div>
 </template>
 
@@ -30,10 +34,11 @@ export default {
   created () {
     let user = app.auth().currentUser
 
-    //TODO: uncomment pour quand on lance le site
-    /*if (user != null) {
+    // arreglar esto
+    return
+    if (user != null) {
       if (user.role != "admin") { router.push('/') }
-    } else { router.push('/') } */
+    } else { router.push('/') }
   },
   methods: {
     post: function() {
