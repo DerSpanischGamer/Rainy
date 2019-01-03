@@ -76,7 +76,6 @@ export default {
   created () {
     let uti = app.auth().currentUser
 
-    console.log(uti)
     if (uti != null) {
       this.connecte = true
 
@@ -93,15 +92,12 @@ export default {
     }
     else {
       this.connecte = false
-      console.log("Pas connecte")
     }
   },
   updated: function() {
     this.$nextTick(function() {
       let uti = app.auth().currentUser
 
-      console.log(uti)
-      console.log('mounted')
       if (uti != null) {
         this.connecte = true
         this.id  = uti.uid
@@ -116,7 +112,6 @@ export default {
       }
       else {
         this.connecte = false
-        console.log("Pas connecte")
       }
     })
   },
@@ -124,7 +119,6 @@ export default {
     menu: function(index) {
       switch (index) {
         case 0:
-          console.log(this.uid)
           this.utilisa()
         break
         case 1:

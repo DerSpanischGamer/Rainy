@@ -33,8 +33,7 @@
           <h2> Communautes </h2>
           <h3 v-for="(tit, index) in titres"> <br> <a :href="'/#/communaute&:' + true_coms[index]"> {{ tit }} </a> </h3>
         </v-navigation-drawer>
-      </p>
-
+        </p>
         </v-flex>
       </v-layout>
     </v-container>
@@ -81,7 +80,7 @@ export default {
 
     // Gerer les posts de l'utilisateur
     this.id = this.$route.params.id.replace(':', '')
-    
+
     db.ref('users/' + this.id).once('value')
     .then((data) => {
       const obj = data.val()

@@ -1,67 +1,54 @@
 <template>
   <div class="Vide">
-    <v-text-field
-    v-model="nom"
-    label="Nom"
-    required> </v-text-field>
-    <v-text-field
-    v-model="description"
-    label="Description"
-    required> </v-text-field>
-    <v-btn disabled @click="nouvelleCom"> Creer une nouvelle communaute </v-btn>
-    <br>
-    <br>
-    <br>
-    <br>
-    <v-navigation-drawer
-      class="blue lighten-3"
-      dark
-      permanent
-    >
-      <v-list xs2 >
-        <v-list-tile
-          v-for="item in items"
-          :key="item.title"
-          @click=""
-        >
-          <v-list-tile-action>
-            <v-icon> {{ item.icon }} </v-icon>
-          </v-list-tile-action>
-
-          <v-list-tile-content>
-            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list>
-    </v-navigation-drawer>
+    <v-layout row wrap class="pt-5" justify-center>
+      <v-flex xs12 sm10 md8 lg6>
+        <v-text-field
+        v-model="nom"
+        label="Nom"
+        > </v-text-field>
+        <v-text-field
+        v-model="description"
+        label="Description"
+        > </v-text-field>
+        <v-btn @click="nouvelleCom"> Creer une nouvelle communaute </v-btn>
+      </v-flex>
+    </v-layout>
   </div>
 </template>
 
 <script>
+import router from '../router'
+
 export default {
   name: 'Vide',
   data () {
     return {
       msg: 'Faire les tests ici',
-      nom: '',
-      description: '',
-      items: []
+      // Variables
+      nom: '', // le nom de la communaute
+      description: '' // la description de la communaute
     }
   },
   created () {
-    //TODO: uncomment pour quand on lance le site
-    /*if (user != null) {
-      if (user.role != "admin") { router.push('/') }
-    } else { router.push('/') } */
+    let user = app.auth().currentUser
+
+    if (user == null || !user.emailVerified) { router.push('/'); return }
+    db.ref('users/' + user.uid).once('value')
+    .then((data) => {
+      if (data.val().role != 'admin') { return }
+    })
+    .catch(function(error) {
+      router.push('/')
+      return
+    })
   },
   methods: {
     nouvelleCom: function () {
-      let com_ = db.ref('communities')
-      let cle = com_.key
+      let com_ = db.ref('communities/')
 
       let com = {
-        description: "Des images des filles chat",
-        nom: "Filles chat",
+        description: this.description,
+        nom: this.nom,
         posts: { "id": "id" },
         suit: { "id": "id" }
       }
@@ -77,7 +64,7 @@ export default {
 
           obj[key] = com.nom
 
-          db.ref('communities/index').set()
+          db.ref('communities/index').set(obj)
         })
       })
     }
