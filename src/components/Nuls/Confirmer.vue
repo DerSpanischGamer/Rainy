@@ -15,13 +15,12 @@ export default {
     }
   },
   created () {
-    let utilisateur, email, id
     let user = app.auth().currentUser
 
     if (user != null && !user.emailVerified) {
-      utilisateur = user.displayName
-      email = user.email
-      id = user.uid
+      const utilisateur = user.displayName
+      const email = user.email
+      const id = user.uid
 
       db.ref('users/' + id)
       .set({
@@ -54,10 +53,19 @@ export default {
         for (let com in defaultComs) {
           db.ref('communities/' + com + '/suit').once('value')
           .then((data) => {
-            let liste = data.val().suit
+            let liste = data.val()
             liste[id] = id
 
             db.ref('communities/' + com + '/suit').set(liste)
+
+            users.once('value')
+            .then((data) => {
+              const obj = data.val()
+
+              obj.index[id] = utilisateur
+
+              db.ref('users/index').set(obj)
+            })
           })
         }
       })

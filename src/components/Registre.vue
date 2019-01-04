@@ -83,20 +83,18 @@ export default {
 
         let indexo = obj.index
 
-        for (let key in index) {
-          console.log(key)
-          user.push(index[key])
+        for (let key in indexo) {
+          user.push(indexo[key])
         }
 
-        console.log(user)
-        return
         // Tout le code doit s'executer ici car sinon l'app ne se syncronise pas a cause du delai du serveur
         for (let i = 0; i < user.length; i++) {
-          if (user[i].utilisateur == this.utilisateur) {
+          if (user[i].localeCompare(this.utilisateur) != -1) {
             this.error = "Nom d'utilisateur deja pris"
             return
           }
         }
+        
         for (let i = 0; i < this.utilisateur.length; i++) {
           if (this.utilisateur[i] == " ") {
             this.error = "Le nom d'utilisateur ne peut pas contenir des espaces"

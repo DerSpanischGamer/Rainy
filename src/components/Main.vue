@@ -29,11 +29,11 @@
           <v-card-actions>
 
             <v-btn flat v-if="final_likes[index]" v-on:click="dislike(index)" icon>
-              <v-icon>favorite_border</v-icon>
+              <v-icon> favorite </v-icon>
               </v-btn>
 
             <v-btn flat v-else v-on:click="like(index)" icon color="red">
-              <v-icon> favorite </v-icon>
+              <v-icon> favorite_border </v-icon>
              </v-btn>
 
             <h2> {{ longueur(likes[index]) - 1 }} </h2>
