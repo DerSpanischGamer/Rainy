@@ -1,45 +1,45 @@
 <template>
   <v-app>
     <div id="app" >
-        <v-toolbar fixed>
-          <v-toolbar-title> Rainy </v-toolbar-title>
-          <v-spacer></v-spacer>
+      <v-toolbar fixed>
+        <v-toolbar-title> Rainy </v-toolbar-title>
+        <v-spacer></v-spacer>
 
-          <v-form>
-            <v-container>
-              <v-layout row wrap>
-                <v-flex sm12>
-                 <v-text-field
-                   label="Recherche"
-                   v-model="recherche"
-                   prepend-icon="search"
-                   single-line
-                   box
-                   v-on:keyup.enter="search"
-                 ></v-text-field>
-               </v-flex>
-             </v-layout>
-           </v-container>
-         </v-form>
+        <v-form>
+          <v-container>
+            <v-layout row wrap>
+              <v-flex sm12>
+               <v-text-field
+               label="Recherche"
+               v-model="recherche"
+               prepend-icon="search"
+               single-line
+               box
+               v-on:keyup.enter="search"
+               ></v-text-field>
+           </v-flex>
+           </v-layout>
+         </v-container>
+       </v-form>
 
-          <v-btn icon>
-            <v-icon> favorite </v-icon>
-          </v-btn>
+      <v-btn icon>
+        <v-icon> favorite </v-icon>
+      </v-btn>
 
-          <v-toolbar-items class="hidden-sm-and-down">
+      <v-toolbar-items class="hidden-sm-and-down">
 
-          <v-btn icon flat to="/">
-            <v-icon> home </v-icon>
-          </v-btn>
+      <v-btn icon flat to="/">
+        <v-icon> home </v-icon>
+      </v-btn>
 
-          <v-btn v-if="!connecte && !this.cestLogin(this.getPath())" flat :to="'/login&:' + this.getPath()"> Login </v-btn>
-          <v-menu
-          offset-y
-          v-if="connecte"
-          >
-            <v-btn
-            icon
-            slot="activator">
+      <v-btn v-if="!connecte && !this.cestLogin(this.getPath())" flat :to="'/login&:' + this.getPath()"> Login </v-btn>
+      <v-menu
+      offset-y
+      v-if="connecte"
+      >
+        <v-btn
+        icon
+        slot="activator">
               <v-avatar>
                 <v-img
                 :src="photo"
