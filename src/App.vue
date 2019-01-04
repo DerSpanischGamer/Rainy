@@ -5,10 +5,21 @@
           <v-toolbar-title> Rainy </v-toolbar-title>
           <v-spacer></v-spacer>
 
-          <v-btn icon>
-            <v-icon>search</v-icon>
-          </v-btn>
-
+          <v-form>
+              <v-container>
+                <v-layout row wrap>
+              <v-flex  sm12>
+               <v-text-field
+                 label="Recherche"
+                 prepend-icon="search"
+                 single-line
+                 box
+               ></v-text-field>
+             </v-flex>
+        </v-layout>
+         </v-container>
+        </v-form>
+        
           <v-btn icon>
             <v-icon>favorite</v-icon>
           </v-btn>
@@ -18,6 +29,8 @@
           <v-btn icon flat to="/">
             <v-icon>home </v-icon>
           </v-btn>
+
+
 
           <v-btn v-if="!connecte && !this.cestLogin(this.getPath())" flat :to="'/login&:' + this.getPath()"> Login </v-btn>
           <v-menu

@@ -10,6 +10,15 @@
             <v-img :src="post.image"></v-img>
             <v-card-title> <h2> {{ post.description }} </h2> </v-card-title>
             <v-card-actions>
+              <!--<v-btn icon class="white">
+                <v-icon>favorite </v-icon>
+              </v-btn>
+              <v-container fluid px-0>
+                <v-checkbox
+                :label="`Checkbox: ${checkbox.toString()}`"
+                v-model="checkbox"
+                ></v-checkbox>
+              </v-container>-->
               <v-btn flat v-if="true_likes[index]" v-on:click="dislike(index)" color="red"> Dislike </v-btn>
               <v-btn flat v-else v-on:click="like(index)" color="green"> Like </v-btn>
               <h2> {{ longueur(likes[index]) - 1 }} </h2>
@@ -70,7 +79,8 @@ export default {
         coms: {}, // un object d'objects avec les communautes
         indexo: {}, // un index id com -> nom a montrer
         true_coms: [], // les ids des coms
-        titres: [], // les noms des coms, meme ordre que true_coms,
+        titres: [],
+        checkbox: true, // les noms des coms, meme ordre que true_coms,
     }
   },
   created() {
