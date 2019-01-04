@@ -6,31 +6,31 @@
           <v-spacer></v-spacer>
 
           <v-form>
-              <v-container>
-                <v-layout row wrap>
-              <v-flex  sm12>
-               <v-text-field
-                 label="Recherche"
-                 prepend-icon="search"
-                 single-line
-                 box
-               ></v-text-field>
-             </v-flex>
-        </v-layout>
-         </v-container>
-        </v-form>
-        
+            <v-container>
+              <v-layout row wrap>
+                <v-flex sm12>
+                 <v-text-field
+                   label="Recherche"
+                   v-model="recherche"
+                   prepend-icon="search"
+                   single-line
+                   box
+                   v-on:keyup.enter="search"
+                 ></v-text-field>
+               </v-flex>
+             </v-layout>
+           </v-container>
+         </v-form>
+
           <v-btn icon>
-            <v-icon>favorite</v-icon>
+            <v-icon> favorite </v-icon>
           </v-btn>
 
           <v-toolbar-items class="hidden-sm-and-down">
 
           <v-btn icon flat to="/">
-            <v-icon>home </v-icon>
+            <v-icon> home </v-icon>
           </v-btn>
-
-
 
           <v-btn v-if="!connecte && !this.cestLogin(this.getPath())" flat :to="'/login&:' + this.getPath()"> Login </v-btn>
           <v-menu
@@ -76,6 +76,7 @@ export default {
       temp: '', // Info temporaire pour eles pages qui ne peuvent pas acceder a leur this. comme ex. login
     },
     ({
+      recherche: 'lol',
       items: [
         { title: 'Profil' },
         { title: 'Préférences' },
@@ -154,6 +155,10 @@ export default {
     },
     cestLogin: function(dir) {
       if (dir.slice(0, 5) == 'login') { return true } else { return false }
+    },
+    search: function() {
+      alert('kasbdaksb')
+      router.push('/search&:' + this.recherche)
     }
   }
 }
