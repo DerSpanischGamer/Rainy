@@ -4,33 +4,31 @@
       <v-flex xs12 sm10 md8 lg6>
         <v-form ref="form" v-model="valid" lazy-validation>
         <v-text-field
-          v-model="email"
-          :rules="emailRules"
-          label="E-mail"
-          required
+        v-model="email"
+        :rules="emailRules"
+        label="E-mail"
+        required
         ></v-text-field>
         <v-text-field
-          v-model="utilisateur"
-          label="Nom d'utilisateur"
-          :rules="regles"
-          required
+        v-model="utilisateur"
+        label="Nom d'utilisateur"
+        :rules="regles"
+        required
         ></v-text-field>
         <v-text-field
-          :append-icon="show ? 'visibility_off' : 'visibility'"
-          :type="show ? 'text' : 'password'"
-          v-model="passe"
-          label="Mot de passe"
-          :rules="rules"
-          required
-          counter
-          @click:append="show = !show"
+        :append-icon="show ? 'visibility_off' : 'visibility'"
+        :type="show ? 'text' : 'password'"
+        v-model="passe"
+        label="Mot de passe"
+        :rules="rules"
+        required
+        counter
+        @click:append="show = !show"
         ></v-text-field>
         <v-btn
-          :disabled="!valid"
-          @click="submit"
-        >
-          submit
-        </v-btn>
+        :disabled="!valid"
+        @click="submit"
+        > Se registrer </v-btn>
         <p> {{ this.error }} </p>
         <br>
         <h3> Tu as déjà un compte chez nous? <a href='#/login'> Connecte-toi ici </a> </h3>
@@ -82,12 +80,16 @@ export default {
       users.once('value')
       .then((data) => {
         const obj = data.val()
-        for (let key in obj) {
-          user.push({
-            utilisateur: obj[key].utilisateur
-          })
+
+        let indexo = obj.index
+
+        for (let key in index) {
+          console.log(key)
+          user.push(index[key])
         }
 
+        console.log(user)
+        return
         // Tout le code doit s'executer ici car sinon l'app ne se syncronise pas a cause du delai du serveur
         for (let i = 0; i < user.length; i++) {
           if (user[i].utilisateur == this.utilisateur) {

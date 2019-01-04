@@ -3,7 +3,8 @@
     <v-app>
     <v-container fluid>
       <v-layout row wrap justify-end row fill-height>
-        <v-flex xs8>
+        <v-flex xs12>
+          <h1> Voilà les posts que t'as aimé </h1>
           <v-card v-for="(post, index) in final_posts" :key="post.id">
             <v-card-title> <h2> <a :href='"#/communaute&:" + post.communaute'> {{ indexo[post.communaute] }} </a> </h2> </v-card-title>
             <v-card-title> <h3 class="headline mb-0"> {{ post.titre }} </h3> </v-card-title>
@@ -15,25 +16,6 @@
               <h2> {{ longueur(likes[index]) - 1 }} </h2>
             </v-card-actions>
           </v-card>
-        </v-flex>
-        <v-flex xs3 order-lg2>
-          <p class="text-lg-center">
-            <v-navigation-drawer
-            class="blue lighten-3"
-            >
-          <v-img class="text-lg-center"
-          :src="photo"
-          height="100"
-          width="100"
-          ></v-img>
-          <h1> {{ utilisateur }} </h1>
-          <br>
-          <h3> {{ bio }} </h3>
-          <br>
-          <h2> Communautes </h2>
-          <h3 v-for="(tit, index) in titres"> <br> <a :href="'/#/communaute&:' + true_coms[index]"> {{ tit }} </a> </h3>
-        </v-navigation-drawer>
-        </p>
         </v-flex>
       </v-layout>
     </v-container>
