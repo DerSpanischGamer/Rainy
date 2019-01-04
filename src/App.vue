@@ -9,55 +9,54 @@
           <v-container>
             <v-layout row wrap>
               <v-flex sm12>
-               <v-text-field
-               label="Recherche"
-               v-model="recherche"
-               prepend-icon="search"
-               single-line
-               box
-               v-on:keyup.enter="search"
-               ></v-text-field>
-           </v-flex>
-           </v-layout>
-         </v-container>
-       </v-form>
+                <v-text-field
+                label="Recherche"
+                v-on:keyup.enter="search"
+                v-model="recherche"
+                prepend-icon="search"
+                single-line
+                box
+                ></v-text-field>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-form>
 
-      <v-btn icon>
-        <v-icon> favorite </v-icon>
-      </v-btn>
+        <v-btn icon to="/like">
+          <v-icon> favorite </v-icon>
+        </v-btn>
 
-      <v-toolbar-items class="hidden-sm-and-down">
+        <v-toolbar-items class="hidden-sm-and-down">
 
-      <v-btn icon flat to="/">
-        <v-icon> home </v-icon>
-      </v-btn>
+          <v-btn icon flat to="/">
+            <v-icon> home </v-icon>
+          </v-btn>
 
-      <v-btn v-if="!connecte && !this.cestLogin(this.getPath())" flat :to="'/login&:' + this.getPath()"> Login </v-btn>
-      <v-menu
-      offset-y
-      v-if="connecte"
-      >
-        <v-btn
-        icon
-        slot="activator">
+          <v-btn v-if="!connecte && !this.cestLogin(this.getPath())" flat :to="'/login&:' + this.getPath()"> Login </v-btn>
+          <v-menu
+          offset-y
+          v-if="connecte"
+          >
+            <v-btn
+            icon
+            slot="activator">
               <v-avatar>
                 <v-img
                 :src="photo"
-                >
-                </v-img>
+                ></v-img>
               </v-avatar>
             </v-btn>
-            <v-list>
-              <v-list-tile
-              v-for="(item, index) in this.items"
-              :key="index"
-              @click="menu(index)">
-              <v-list-tile-title> {{ item.title }} </v-list-tile-title>
-              </v-list-tile>
-            </v-list>
-          </v-menu>
-        </v-toolbar-items>
-      </v-toolbar>
+              <v-list>
+                <v-list-tile
+                v-for="(item, index) in this.items"
+                :key="index"
+                @click="menu(index)">
+                <v-list-tile-title> {{ item.title }} </v-list-tile-title>
+                </v-list-tile>
+              </v-list>
+            </v-menu>
+          </v-toolbar-items>
+        </v-toolbar>
       <router-view/>
     </div>
   </v-app>

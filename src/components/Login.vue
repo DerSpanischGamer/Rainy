@@ -23,8 +23,8 @@
             ></v-text-field>
             <h4> Mot de passe oublié? Pas de souci, clicke <a href="#/oublie"> ici </a> pour le réseter. </h4>
             <v-btn
-              :disabled="!valid"
-              @click="submit"
+            :disabled="!valid"
+            @click="submit"
             >
             submit
             </v-btn>

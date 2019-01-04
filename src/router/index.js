@@ -7,7 +7,7 @@ import Registre from '@/components/Registre'
 import User from '@/components/User'
 import Vide from '@/components/Vide'
 import Communaute from '@/components/Communaute'
-import Recherche from '@/components/Recherche'
+import Like from '@/components/Like'
 
 import Confirmer from '@/components/Nuls/Confirmer'
 import Oublie from '@/components/Nuls/Oublie'
@@ -49,9 +49,9 @@ export default new Router({
       component: Communaute
     },
     {
-      path: '/search&:id',
-      name: 'Recherche',
-      component: Recherche
+      path: '/like',
+      name: 'Like',
+      component: Like
     },
     {
       path: '/confirmation',
