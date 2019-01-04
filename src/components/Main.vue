@@ -146,7 +146,7 @@ export default {
 
         this.likes.push(this.true_posts[post].likes)
 
-        if (this.true_posts[post].likes.hasOwnProperty(this.id)) { console.log('oui'); this.final_likes.push(true) } else { console.log('non'); this.final_likes.push(false) }
+        if (this.true_posts[post].likes.hasOwnProperty(this.id)) { this.final_likes.push(true) } else { this.final_likes.push(false) }
       }
     },
     longueur: function(obj) {

@@ -13,6 +13,7 @@ import Oublie from '@/components/Nuls/Oublie'
 import Fini from '@/components/Nuls/Fini'
 import Error from '@/components/Nuls/404'
 import Admin from '@/components/Nuls/Admin'
+import Preferences from '@/components/Nuls/Preferences'
 
 import Post from '@/components/Nuls/Post'
 import PostC from '@/components/Nuls/PostCom'
@@ -80,6 +81,11 @@ export default new Router({
       path: '/admin',
       name: 'Admin',
       component: Admin
+    },
+    {
+      path: '/preferences',
+      name: 'Preferences',
+      component: Preferences
     },
     {
       path: '*',

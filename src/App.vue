@@ -123,8 +123,10 @@ export default {
         break
         case 1:
           router.push('preferences')
+          break
         case 2:
           app.auth().signOut()
+          location.reload()
         break
       }
     },
