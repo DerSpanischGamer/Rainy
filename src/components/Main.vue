@@ -1,20 +1,8 @@
 <template>
   <div class="Main">
     <v-container fluid>
-      <v-flex xs9 order-lg2>
-        <v-card v-for="(post, index) in true_posts" :key="post.id">
-          <v-card-title> <h3 class="headline mb-0"> {{ post.titre }} </h3> </v-card-title>
-          <v-img :src="post.image" height="500" ></v-img>
-          <v-card-title> <h2> {{ post.description }} </h2> </v-card-title>
-          <v-card-actions>
-            <v-btn flat v-if="final_likes[index]" v-on:click="dislike(index)" color="red"> Dislike </v-btn>
-            <v-btn flat v-else v-on:click="like(index)" color="green"> Like </v-btn>
-            <h2> {{ longueur(likes[index]) - 1 }} </h2>
-          </v-card-actions>
-        </v-card>
-      </v-flex>
-      <v-flex xs3 order-lg2>
-        <p class="text-lg-right">
+      <v-flex xs2 order-lg5 >
+        <p class="text-lg-center">
           <v-navigation-drawer
           class="blue lighten-3"
           >
@@ -32,6 +20,28 @@
           </v-navigation-drawer>
         </p>
       </v-flex>
+
+      <v-flex xs9 order-lg2>
+        <v-card v-for="(post, index) in true_posts" :key="post.id">
+          <v-card-title> <h3 class="headline mb-0"> {{ post.titre }} </h3> </v-card-title>
+          <v-img :src="post.image" height="500" ></v-img>
+          <v-card-title> <h2> {{ post.description }} </h2> </v-card-title>
+          <v-card-actions>
+
+            <v-btn flat v-if="final_likes[index]" v-on:click="dislike(index)" icon>
+              <v-icon>favorite_border</v-icon>
+              </v-btn>
+
+            <v-btn flat v-else v-on:click="like(index)" icon color="red">
+              <v-icon> favorite </v-icon>
+             </v-btn>
+
+            <h2> {{ longueur(likes[index]) - 1 }} </h2>
+          </v-card-actions>
+        </v-card>
+      </v-flex>
+
+
     </v-container>
 </div>
 </template>
