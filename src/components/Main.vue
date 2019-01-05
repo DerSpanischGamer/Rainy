@@ -1,9 +1,16 @@
 <template>
   <div class="Main">
     <v-container fluid>
+      <v-layout
+        align-end
+        justify-end
+      >
+
       <v-flex xs2 order-lg5 >
-        <p class="text-lg-center">
+        <p class="d-inline-block elevation-12">
           <v-navigation-drawer
+          floating
+        permanent
           class="blue lighten-3"
           >
             <v-list xs2>
@@ -20,6 +27,7 @@
           </v-navigation-drawer>
         </p>
       </v-flex>
+        </v-layout>
 
       <v-flex xs9 order-lg2>
         <v-card v-for="(post, index) in true_posts" :key="post.id">
