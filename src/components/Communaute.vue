@@ -4,12 +4,20 @@
       <v-layout row wrap justify-end row fill-height>
         <v-flex xs8>
           <v-card v-for="(post, index) in final_posts" :key="post.id">
+            <v-card-title> <h1> Posté par: <a :href='"#/user&:" + indexa[post.auteur]'> {{ indexa[post.auteur] }} </a> </h1> </v-card-title>
             <v-card-title> <h3 class="headline mb-0"> {{ post.titre }} </h3> </v-card-title>
             <v-img :src="post.image"></v-img>
             <v-card-title> <h2> {{ post.description }} </h2> </v-card-title>
             <v-card-actions>
-              <v-btn flat v-if="true_likes[index]" color="red" @click="dislike(index)"> Dislike </v-btn>
-              <v-btn flat v-else @click="like(index)"color="green"> Like </v-btn>
+
+              <v-btn flat v-if="true_likes[index]" v-on:click="dislike(index)" icon color="red">
+                <v-icon> favorite </v-icon>
+              </v-btn>
+
+              <v-btn flat v-else v-on:click="like(index)" icon color="red">
+                <v-icon> favorite_border </v-icon>
+              </v-btn>
+
               <h2> {{ longueur(likes[index]) - 1 }} </h2>
             </v-card-actions>
           </v-card>
@@ -55,13 +63,18 @@ export default {
       final_posts: [],  // celui ci c'est une liste des posts (objects) qui ont ete deja ordonne (nouveaux premiers)
       // Likes des posts, meme ordre final_posts
       likes: [], // liste d'objects qui gardent tous ces qui ont like une image
-      true_likes: [] // vrai si l'utilisateur a like, faut sinon
+      true_likes: [], // vrai si l'utilisateur a like, faut sinon
+      // Misc
+      indexa: {} // index avec id_utilisateur : nom_utilisateur
     }
   },
   created() {
     // Gerer l'utilisateur qui est sur le site
     let user = app.auth().currentUser
     if (user != null) { this.utilisateur = user.uid; this.connecte = true }
+
+    // Gerer Misc
+    db.ref('users/index').once('value').then((data) => { this.indexa = data.val() })
 
     // Gerer les posts de la com et les infos
     this.id = this.$route.params.id.replace(':', '')

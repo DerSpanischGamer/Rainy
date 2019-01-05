@@ -23,21 +23,23 @@
 
       <v-flex xs9 order-lg2>
         <v-card v-for="(post, index) in true_posts" :key="post.id">
+          <v-card-title> <h1> Posté sur: <a :href='"#/communaute&:" + post.communaute'> {{ indexo[post.communaute] }} </a> </h1> </v-card-title>
+          <v-card-title> <h2> Par: <a :href='"#/user&:" + post.auteur'> {{ indexa[post.auteur] }} </a> </h2> </v-card-title>
           <v-card-title> <h3 class="headline mb-0"> {{ post.titre }} </h3> </v-card-title>
           <v-img :src="post.image" height="500" ></v-img>
-          <v-card-title> <h2> {{ post.description }} </h2> </v-card-title>
           <v-card-actions>
 
-            <v-btn flat v-if="final_likes[index]" v-on:click="dislike(index)" icon>
+            <v-btn flat v-if="final_likes[index]" v-on:click="dislike(index)" icon color="red">
               <v-icon> favorite </v-icon>
-              </v-btn>
+            </v-btn>
 
             <v-btn flat v-else v-on:click="like(index)" icon color="red">
               <v-icon> favorite_border </v-icon>
-             </v-btn>
+            </v-btn>
 
             <h2> {{ longueur(likes[index]) - 1 }} </h2>
           </v-card-actions>
+          <v-card-title> <h2> {{ post.description }} </h2> </v-card-title>
         </v-card>
       </v-flex>
 
@@ -62,7 +64,8 @@ export default {
        // Variables sur les communautes
        coms: {}, // object avec tous les communautes que l'utilisateur suit
        true_coms: [], // liste avec les objectes: { title: --- , lien: --- }
-       indexo: {},
+       indexo: {}, // index avec id_communaute : nom_communaute
+       indexa: {}, // index avec id_utilisateur : nom_utilisateur
        // Variables pour les posts
        temp_post: {}, // garder ici temporairement les posts avant d'etre ordonnes
        posts: [], // liste de tous les ids des posts
@@ -75,6 +78,8 @@ export default {
   },
   created () {
     let user = app.auth().currentUser
+
+    db.ref('users/index').once('value').then((data) => { this.indexa = data.val() })
 
     if (user != null) {
       this.connecte = true

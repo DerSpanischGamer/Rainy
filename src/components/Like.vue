@@ -11,8 +11,12 @@
             <v-img :src="post.image"></v-img>
             <v-card-title> <h2> {{ post.description }} </h2> </v-card-title>
             <v-card-actions>
-              <v-btn flat v-if="true_likes[index]" v-on:click="dislike(index)" color="red"> Dislike </v-btn>
-              <v-btn flat v-else v-on:click="like(index)" color="green"> Like </v-btn>
+              <v-btn flat v-if="true_likes[index]" v-on:click="dislike(index)" icon color="red">
+                <v-icon> favorite </v-icon>
+              </v-btn>
+              <v-btn flat v-else v-on:click="like(index)" icon color="red">
+                <v-icon> favorite_border </v-icon>
+              </v-btn>
               <h2> {{ longueur(likes[index]) - 1 }} </h2>
             </v-card-actions>
           </v-card>
