@@ -1,7 +1,28 @@
 <template>
   <div class="User" id="User">
     <v-app>
-    <v-container fluid>
+    <v-container fluid >
+      <v-flex xs3 order-lg2 >
+        <p class="text-lg-center">
+          <v-navigation-drawer
+          class="blue lighten-3"
+          
+          >
+        <v-img class="text-lg-center"
+        :src="photo"
+        height="100"
+        width="100"
+        ></v-img>
+        <h1> {{ utilisateur }} </h1>
+        <br>
+        <h3> {{ bio }} </h3>
+        <br>
+        <h2> Communautes </h2>
+        <h3 v-for="(tit, index) in titres"> <br> <a :href="'/#/communaute&:' + true_coms[index]"> {{ tit }} </a> </h3>
+      </v-navigation-drawer>
+    </p>
+
+      </v-flex>
       <v-layout row wrap justify-end row fill-height>
         <v-flex xs8>
           <v-card v-for="(post, index) in final_posts" :key="post.id">
@@ -18,26 +39,6 @@
           </v-card>
         </v-flex>
 
-        <v-flex xs3 order-lg2>
-          <p class="text-lg-center">
-            <v-navigation-drawer
-            class="blue lighten-3"
-            >
-          <v-img class="text-lg-center"
-          :src="photo"
-          height="100"
-          width="100"
-          ></v-img>
-          <h1> {{ utilisateur }} </h1>
-          <br>
-          <h3> {{ bio }} </h3>
-          <br>
-          <h2> Communautes </h2>
-          <h3 v-for="(tit, index) in titres"> <br> <a :href="'/#/communaute&:' + true_coms[index]"> {{ tit }} </a> </h3>
-        </v-navigation-drawer>
-      </p>
-
-        </v-flex>
       </v-layout>
     </v-container>
   </v-app>

@@ -2,16 +2,15 @@
   <div class="Main">
     <v-container fluid>
       <v-layout
-        v-scroll:#scroll-target="onScroll"
-        column
-        align-center
-        justify-center
-        style="height: 1000px"
+        align-end
+        justify-end
       >
 
       <v-flex xs2 order-lg5 >
-        <p class="text-lg-center">
+        <p class="d-inline-block elevation-12">
           <v-navigation-drawer
+          floating
+        permanent
           class="blue lighten-3"
           >
             <v-list xs2>
