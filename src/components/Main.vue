@@ -1,6 +1,8 @@
 <template>
+
   <div class="Main">
-    <v-container fluid>
+
+    <v-container fluid >
       <v-layout
         align-end
         justify-end
@@ -9,12 +11,15 @@
       <v-flex xs2 order-lg5 >
         <p class="d-inline-block elevation-12">
           <v-navigation-drawer
+          stateless
           floating
         permanent
           class="blue lighten-3"
+
           >
             <v-list xs2>
               <v-list-tile
+
                 v-for="c in true_coms"
                 :key="c.lien"
                 :to="'/communaute&:' + c.lien"
@@ -53,7 +58,9 @@
 
 
     </v-container>
+
 </div>
+
 </template>
 
 <script>
@@ -241,4 +248,7 @@ li {
 a {
   color: #42b983;
 }
+.v-navigation-drawer {
+    transition: none !important;
+  }
 </style>
