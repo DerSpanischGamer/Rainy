@@ -1,59 +1,48 @@
 <template>
   <div class="Main">
     <v-container fluid>
-      <v-layout
-        align-end
-        justify-end
-      >
-
-      <v-flex xs2 order-lg5 >
-        <p class="d-inline-block elevation-12">
-          <v-navigation-drawer
-          floating
-        permanent
-          class="blue lighten-3"
-          >
-            <v-list xs2>
-              <v-list-tile
+      <v-layout row wrap justify-end row fill-height order-lg2>
+        <v-flex xs4>
+          <p class="text-lg-center">
+            <v-navigation-drawer class="blue lighten-3">
+              <v-list xs2>
+                <v-list-tile
                 v-for="c in true_coms"
                 :key="c.lien"
                 :to="'/communaute&:' + c.lien"
                 >
-                <v-list-tile-content>
-                  <v-list-tile-title> {{ c.title }} </v-list-tile-title>
-                </v-list-tile-content>
-              </v-list-tile>
-            </v-list>
-          </v-navigation-drawer>
-        </p>
-      </v-flex>
-        </v-layout>
+                  <v-list-tile-content>
+                    <v-list-tile-title> {{ c.title }} </v-list-tile-title>
+                  </v-list-tile-content>
+                </v-list-tile>
+              </v-list>
+            </v-navigation-drawer>
+          </p>
+        </v-flex>
+        <v-flex xs8>
+          <v-card v-for="(post, index) in true_posts" :key="post.id">
+            <v-card-title> <h1> Posté sur: <a :href='"#/communaute&:" + post.communaute'> {{ indexo[post.communaute] }} </a> </h1> </v-card-title>
+            <v-card-title> <h2> Par: <a :href='"#/user&:" + post.auteur'> {{ indexa[post.auteur] }} </a> </h2> </v-card-title>
+            <v-card-title> <h3 class="headline mb-0"> {{ post.titre }} </h3> </v-card-title>
+            <v-img :src="post.image" height="500" ></v-img>
+            <v-card-actions>
 
-      <v-flex xs9 order-lg2>
-        <v-card v-for="(post, index) in true_posts" :key="post.id">
-          <v-card-title> <h1> Posté sur: <a :href='"#/communaute&:" + post.communaute'> {{ indexo[post.communaute] }} </a> </h1> </v-card-title>
-          <v-card-title> <h2> Par: <a :href='"#/user&:" + post.auteur'> {{ indexa[post.auteur] }} </a> </h2> </v-card-title>
-          <v-card-title> <h3 class="headline mb-0"> {{ post.titre }} </h3> </v-card-title>
-          <v-img :src="post.image" height="500" ></v-img>
-          <v-card-actions>
+              <v-btn flat v-if="final_likes[index]" v-on:click="dislike(index)" icon color="red">
+                <v-icon> favorite </v-icon>
+              </v-btn>
 
-            <v-btn flat v-if="final_likes[index]" v-on:click="dislike(index)" icon color="red">
-              <v-icon> favorite </v-icon>
-            </v-btn>
+              <v-btn flat v-else v-on:click="like(index)" icon color="red">
+                <v-icon> favorite_border </v-icon>
+              </v-btn>
 
-            <v-btn flat v-else v-on:click="like(index)" icon color="red">
-              <v-icon> favorite_border </v-icon>
-            </v-btn>
-
-            <h2> {{ longueur(likes[index]) - 1 }} </h2>
-          </v-card-actions>
-          <v-card-title> <h2> {{ post.description }} </h2> </v-card-title>
-        </v-card>
-      </v-flex>
-
-
+              <h2> {{ longueur(likes[index]) - 1 }} </h2>
+            </v-card-actions>
+            <v-card-title> <h2> {{ post.description }} </h2> </v-card-title>
+          </v-card>
+        </v-flex>
+      </v-layout>
     </v-container>
-</div>
+  </div>
 </template>
 
 <script>
