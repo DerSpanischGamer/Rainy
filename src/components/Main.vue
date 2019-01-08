@@ -1,27 +1,7 @@
 <template>
-
   <div class="Main">
-<<<<<<< HEAD
 
-    <v-container fluid >
-      <v-layout
-        align-end
-        justify-end
-      >
 
-      <v-flex xs2 order-lg5 >
-        <p class="d-inline-block elevation-12">
-          <v-navigation-drawer
-          stateless
-          floating
-        permanent
-          class="blue lighten-3"
-
-          >
-            <v-list xs2>
-              <v-list-tile
-
-=======
     <v-container fluid>
       <v-layout row wrap justify-end row fill-height order-lg2>
         <v-flex xs4>
@@ -29,19 +9,19 @@
             <v-navigation-drawer class="blue lighten-3">
               <v-list xs2>
                 <v-list-tile
->>>>>>> 5a9f0ee38a53ffa75bdae4090456d89d9efee602
                 v-for="c in true_coms"
                 :key="c.lien"
                 :to="'/communaute&:' + c.lien"
                 >
-                  <v-list-tile-content>
-                    <v-list-tile-title> {{ c.title }} </v-list-tile-title>
-                  </v-list-tile-content>
-                </v-list-tile>
-              </v-list>
-            </v-navigation-drawer>
+                <v-list-tile-content>
+                  <v-list-tile-title> {{ c.title }} </v-list-tile-title>
+                </v-list-tile-content>
+              </v-list-tile>
+            </v-list>
+          </v-navigation-drawer>
           </p>
         </v-flex>
+
         <v-flex xs8>
           <v-card v-for="(post, index) in true_posts" :key="post.id">
             <v-card-title> <h1> Posté sur: <a :href='"#/communaute&:" + post.communaute'> {{ indexo[post.communaute] }} </a> </h1> </v-card-title>
@@ -65,13 +45,7 @@
         </v-flex>
       </v-layout>
     </v-container>
-<<<<<<< HEAD
-
-</div>
-
-=======
   </div>
->>>>>>> 5a9f0ee38a53ffa75bdae4090456d89d9efee602
 </template>
 
 <script>
