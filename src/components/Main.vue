@@ -126,6 +126,8 @@ export default {
   },
   methods: {
     fairePosts: function() {
+      db.ref('communities/index').once('value').then((data) => { this.indexo = data.val() })
+
       for (let com in this.true_coms) {
         db.ref('communities/' + this.true_coms[com].lien).once('value')
         .then((data) => {
