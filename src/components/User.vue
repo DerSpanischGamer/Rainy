@@ -1,53 +1,48 @@
 <template>
   <div class="User" id="User">
     <v-app>
-    <v-container fluid >
-      <v-flex xs3 order-lg2 >
-        <p class="text-lg-center">
-          <v-navigation-drawer
-          class="blue lighten-3"
-          
-          >
-        <v-img class="text-lg-center"
-        :src="photo"
-        height="100"
-        width="100"
-        ></v-img>
-        <h1> {{ utilisateur }} </h1>
-        <br>
-        <h3> {{ bio }} </h3>
-        <br>
-        <h2> Communautes </h2>
-        <h3 v-for="(tit, index) in titres"> <br> <a :href="'/#/communaute&:' + true_coms[index]"> {{ tit }} </a> </h3>
-      </v-navigation-drawer>
-    </p>
+      <v-container fluid >
+        <v-layout row wrap justify-end row fill-height>
+          <v-flex xs8>
+            <v-card v-for="(post, index) in final_posts" :key="post.id">
+              <v-card-title> <h2> Posté par: <a :href='"#/communaute&:" + post.communaute'> {{ indexo[post.communaute] }} </a> </h2> </v-card-title>
+              <v-card-title> <h3 class="headline mb-0"> {{ post.titre }} </h3> </v-card-title>
+              <v-img :src="post.image"></v-img>
+              <v-card-actions>
 
-      </v-flex>
-      <v-layout row wrap justify-end row fill-height>
-        <v-flex xs8>
-          <v-card v-for="(post, index) in final_posts" :key="post.id">
-            <v-card-title> <h2> Posté par: <a :href='"#/communaute&:" + post.communaute'> {{ indexo[post.communaute] }} </a> </h2> </v-card-title>
-            <v-card-title> <h3 class="headline mb-0"> {{ post.titre }} </h3> </v-card-title>
-            <v-img :src="post.image"></v-img>
-            <v-card-actions>
+                <v-btn flat v-if="true_likes[index]" v-on:click="dislike(index)" icon color="red">
+                  <v-icon> favorite </v-icon>
+                </v-btn>
 
-              <v-btn flat v-if="true_likes[index]" v-on:click="dislike(index)" icon color="red">
-                <v-icon> favorite </v-icon>
-              </v-btn>
+                <v-btn flat v-else v-on:click="like(index)" icon color="red">
+                  <v-icon> favorite_border </v-icon>
+                </v-btn>
 
-              <v-btn flat v-else v-on:click="like(index)" icon color="red">
-                <v-icon> favorite_border </v-icon>
-              </v-btn>
-
-              <h2> {{ longueur(likes[index]) - 1 }} </h2>
-            </v-card-actions>
-            <v-card-title> <h2> {{ post.description }} </h2> </v-card-title>
-          </v-card>
-        </v-flex>
-
-      </v-layout>
-    </v-container>
-  </v-app>
+                <h2> {{ longueur(likes[index]) - 1 }} </h2>
+              </v-card-actions>
+              <v-card-title> <h2> {{ post.description }} </h2> </v-card-title>
+            </v-card>
+          </v-flex>
+          <v-flex xs3>
+            <p class="text-lg-center">
+              <v-navigation-drawer class="blue lighten-3">
+                <v-img class="text-lg-center"
+                :src="photo"
+                height="100"
+                width="100"
+                ></v-img>
+                <h1> {{ utilisateur }} </h1>
+                <br>
+                <h3> {{ bio }} </h3>
+                <br>
+                <h2> Communautes </h2>
+                <h3 v-for="(tit, index) in titres"> <br> <a :href="'/#/communaute&:' + true_coms[index]"> {{ tit }} </a> </h3>
+              </v-navigation-drawer>
+            </p>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-app>
   </div>
 </template>
 
