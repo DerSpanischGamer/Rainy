@@ -4,7 +4,7 @@
       <v-layout row wrap justify-end row fill-height>
         <v-flex xs8>
           <v-card v-for="(post, index) in final_posts" :key="post.id">
-            <v-card-title> <h1> Posté par: <a :href='"#/user&:" + indexa[post.auteur]'> {{ indexa[post.auteur] }} </a> </h1> </v-card-title>
+            <v-card-title> <h1> Posté par: <a :href='"#/user&:" + post.auteur'> {{ indexa[post.auteur] }} </a> </h1> </v-card-title>
             <v-card-title> <h3 class="headline mb-0"> {{ post.titre }} </h3> </v-card-title>
             <v-img :src="post.image"></v-img>
             <v-card-title> <h2> {{ post.description }} </h2> </v-card-title>

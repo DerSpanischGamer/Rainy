@@ -22,7 +22,7 @@
             ></v-text-field>
             <v-select
             :items="communautes_txt"
-            v-model="com_selec"
+            v-model="id"
             disabled
             :label="com_selec"
             ></v-select>
@@ -64,7 +64,8 @@ export default {
     let user = app.auth().currentUser
     this.id = this.$route.params.id.replace(':', '')
 
-    //if (user == null || !user.emailVerified || this.id = '') { router.push('/') }
+    if (user == null || !user.emailVerified || this.id == '') { router.push('/'); return }
+
     this.auteur = user.uid
 
     db.ref('users/' + this.auteur).once('value')
@@ -83,8 +84,6 @@ export default {
   },
   methods: {
     submit: function() {
-      if (this.com_selec == '') { alert('Selectionne une communaute'); return }
-
       let post = {
         auteur: this.auteur,
         communaute: this.id,

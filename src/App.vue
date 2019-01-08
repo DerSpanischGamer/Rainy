@@ -22,6 +22,10 @@
           </v-container>
         </v-form>
 
+        <v-btn icon to="/post">
+          <v-icon> add </v-icon>
+        </v-btn>
+
         <v-btn icon to="/like">
           <v-icon> favorite </v-icon>
         </v-btn>
@@ -75,7 +79,7 @@ export default {
       temp: '', // Info temporaire pour eles pages qui ne peuvent pas acceder a leur this. comme ex. login
     },
     ({
-      recherche: 'lol',
+      recherche: '',
       items: [
         { title: 'Profil' },
         { title: 'Préférences' },
